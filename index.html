@@ -5,6 +5,7 @@
 <title>B.Burger — Le Goût du Vrai Burger à Carmaux</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="preload" as="image" href="images/hero-burger.jpg" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Cormorant+Garamond:ital,wght@1,600;1,700&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&amp;display=swap" rel="stylesheet">
 <style>
 /* ─── DESIGN SYSTEM ─────────────────────────────────────── */
@@ -115,7 +116,7 @@ nav.scrolled {
   position: relative; overflow: hidden;
 }
 .hero-bg {
-  position: absolute; inset: 0; z-index: 0;
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
     linear-gradient(108deg,
       oklch(4% 0 0 / .98) 0%,
@@ -124,8 +125,13 @@ nav.scrolled {
       oklch(4% 0 0 / .12) 80%,
       transparent 100%),
     radial-gradient(ellipse 60% 50% at 10% 85%, oklch(4% 0 0 / .85) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 35% at 50% 100%, oklch(4% 0 0 / .6) 0%, transparent 60%),
-    url('mqwkt1gp-ChatGPT-Image-27-juin-2026_-18_28_47.png') 62% center / cover no-repeat;
+    radial-gradient(ellipse 40% 35% at 50% 100%, oklch(4% 0 0 / .6) 0%, transparent 60%);
+}
+.hero-photo {
+  position: absolute; left: 0; right: 0; top: -8vh; z-index: 0;
+  width: 100%; height: calc(100% + 16vh);
+  object-fit: cover; object-position: 62% center;
+  will-change: transform;
 }
 .hero-c { position: relative; z-index: 2; max-width: 660px; }
 .hero-eye {
@@ -616,8 +622,7 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
   background: linear-gradient(to top, oklch(6% .01 65/.92) 0%, oklch(6% .01 65/.38) 50%, transparent 100%);
 }
 .cat-card.feat .cat-ov { padding: 2rem; }
-.cat-emoji { font-size: 1.8rem; margin-bottom: .4rem; }
-.cat-card.feat .cat-emoji { font-size: 2.8rem; }
+.cat-emoji { display: none; }
 .cat-name {
   font-family: var(--font-d); font-size: 1.25rem;
   letter-spacing: .05em; text-transform: uppercase; color: var(--fg);
@@ -625,15 +630,15 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
 .cat-card.feat .cat-name { font-size: 2.2rem; }
 .cat-sub { font-size: .72rem; color: var(--gold); letter-spacing: .08em; margin-top: .15rem; }
 
-/* Category gradient backgrounds */
-.c-burgers .cat-bg  { background: url('mqyaqtmn-f4e5eb3f-32f3-465a-99c5-96d785b1c237.png') center/cover no-repeat; }
-.c-tacos .cat-bg    { background: radial-gradient(ellipse at 50% 50%, oklch(38% .12 70), oklch(12% .014 60) 80%); }
-.c-kebabs .cat-bg   { background: radial-gradient(ellipse at 50% 50%, oklch(30% .08 35), oklch(12% .014 60) 80%); }
-.c-paninis .cat-bg  { background: radial-gradient(ellipse at 50% 50%, oklch(34% .09 55), oklch(12% .014 60) 80%); }
-.c-bowls .cat-bg    { background: radial-gradient(ellipse at 50% 50%, oklch(33% .12 145),oklch(12% .014 60) 80%); }
-.c-menus .cat-bg    { background: radial-gradient(ellipse at 50% 50%, oklch(36% .10 80), oklch(12% .014 60) 80%); }
-.c-desserts .cat-bg { background: radial-gradient(ellipse at 50% 50%, oklch(36% .12 30), oklch(12% .014 60) 80%); }
-.c-boissons .cat-bg { background: radial-gradient(ellipse at 50% 50%, oklch(28% .10 240),oklch(12% .014 60) 80%); }
+/* Category image backgrounds */
+.c-burgers .cat-bg  { background: url('images/gallery-burger-xxl.jpg') center/cover no-repeat; }
+.c-tacos .cat-bg    { background: url('images/gallery-tacos-gratine.jpg') center/cover no-repeat; }
+.c-kebabs .cat-bg   { background: url('images/gallery-kebab.jpg') center/cover no-repeat; }
+.c-paninis .cat-bg  { background: url('images/gallery-tacos-gratine.jpg') center/cover no-repeat; }
+.c-bowls .cat-bg    { background: url('images/bbowl-mozzarella.jpg') center/cover no-repeat; }
+.c-menus .cat-bg    { background: url('images/bbowl-fries.jpg') center/cover no-repeat; }
+.c-desserts .cat-bg { background: url('images/gallery-milkshake.jpg') center/cover no-repeat; }
+.c-boissons .cat-bg { background: url('images/gallery-milkshake.jpg') center/cover no-repeat; }
 
 /* ─── PRODUCT CARD SYSTEM v2 ─────────────────────────────── */
 .p-card {
@@ -689,9 +694,12 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
 .p-img-bg {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 4.2rem;
+  font-size: 0;
   transition: transform .65s cubic-bezier(.22,1,.36,1), filter .5s;
   filter: drop-shadow(0 8px 18px oklch(0% 0 0 / .58));
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
 .p-card:hover .p-img-bg {
   transform: scale(1.13) translateY(-6px);
@@ -777,6 +785,16 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
 .p-card:hover .p-price { color: oklch(82% .18 82); }
 .p-price sup { font-size: .8rem; vertical-align: super; line-height: 0; }
 
+#p-burgers .p-img-bg { background-image: url('images/gallery-burger-xxl.jpg') !important; }
+#p-tacos .p-img-bg { background-image: url('images/gallery-tacos-gratine.jpg') !important; }
+#p-kebabs .p-img-bg { background-image: url('images/gallery-kebab.jpg') !important; }
+#p-paninis .p-img-bg { background-image: url('images/gallery-tacos-gratine.jpg') !important; }
+#p-bowls .p-img-bg { background-image: url('images/bbowl-mozzarella.jpg') !important; }
+#p-assiettes .p-img-bg { background-image: url('images/bbowl-fries.jpg') !important; }
+#p-salades .p-img-bg { background-image: url('images/kitchen-bburger.jpg') !important; }
+#p-desserts .p-img-bg { background-image: url('images/gallery-milkshake.jpg') !important; }
+#p-boissons .p-img-bg { background-image: url('images/gallery-milkshake.jpg') !important; }
+
 /* ── CTA button avec shimmer ────────────────────────────── */
 .btn-add {
   background: var(--gold); color: var(--bg); border: none;
@@ -845,16 +863,22 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
   display: flex; align-items: center; justify-content: center;
 }
 .gal-item:nth-child(1) { grid-row: span 2; }
-.gal-item-bg { position: absolute; inset: 0; }
+.gal-item-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.gal-item::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, oklch(4% .005 60 / .72), transparent 58%);
+}
 .gal-item-lbl {
   position: relative; z-index: 2;
-  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: oklch(40% .08 70);
+  align-self: flex-end; justify-self: flex-start;
+  margin: 1rem;
+  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--fg);
+  text-shadow: 0 2px 12px oklch(0% 0 0 / .75);
 }
-.gi1 .gal-item-bg { background: radial-gradient(ellipse at 40% 55%, oklch(30% .10 60), oklch(10% .012 60) 80%); }
-.gi2 .gal-item-bg { background: radial-gradient(ellipse at 55% 45%, oklch(38% .12 70), oklch(10% .012 60) 80%); }
-.gi3 .gal-item-bg { background: radial-gradient(ellipse at 50% 50%, oklch(34% .09 38), oklch(10% .012 60) 80%); }
-.gi4 .gal-item-bg { background: radial-gradient(ellipse at 50% 50%, oklch(32% .11 145),oklch(10% .012 60) 80%); }
-.gi5 .gal-item-bg { background: radial-gradient(ellipse at 50% 50%, oklch(28% .10 240),oklch(10% .012 60) 80%); }
 
 /* ─── AVIS ───────────────────────────────────────────────── */
 #avis { background: var(--bg-warm); }
@@ -1048,7 +1072,7 @@ footer {
 .faq-icon { border-radius: 4px; }
 .faq-item.open .faq-icon { border-color: var(--gold); background: var(--gold); }
 
-/* Histoire image placeholder — darker + gold accent */
+/* Histoire image surface */
 .hist-img { background: linear-gradient(135deg, oklch(9% .01 58), oklch(12% .012 60)); }
 
 /* htag tokens — slightly darker border */
@@ -1128,6 +1152,15 @@ footer {
   .avis-head{ flex-direction:column; align-items:flex-start; }
 }
 @media(max-width:480px){
+  nav{ gap:1rem; }
+  .nav-cta{
+    display:none;
+  }
+  .hero-sub{
+    max-width:28ch; margin-left:auto; margin-right:auto;
+    padding-inline:.25rem; overflow-wrap:break-word;
+    font-size:.95rem; line-height:1.65;
+  }
   .eng-grid{ grid-template-columns:1fr; }
   .cat-grid{ grid-template-columns:repeat(2,1fr); }
   .menu-g{ grid-template-columns:1fr; }
@@ -1275,6 +1308,13 @@ footer {
 
 <!-- ─── HERO ─────────────────────────────────────────────── -->
 <section id="hero" data-od-id="hero">
+  <img class="hero-photo"
+       src="images/hero-burger.jpg"
+       alt="Burger XXL B.Burger"
+       width="1536" height="1024"
+       loading="eager"
+       decoding="async"
+       fetchpriority="high">
   <div class="hero-bg"></div>
   <div class="hero-noise"></div>
   <div class="hero-ray"></div>
@@ -1295,7 +1335,7 @@ footer {
     <div class="hero-meta">
       <div class="hm-item">
         <img class="hm-logo hm-logo-google"
-             src="mqy94dbw-pngtree-google-internet-icon-vector-png-image_9183287.png"
+             src="images/google-rating-badge.png"
              alt="Google" loading="lazy">
         <div class="hm-body">
           <span class="hm-stars">★★★★★</span>
@@ -1306,7 +1346,7 @@ footer {
       <a class="hm-item hm-item-link" href="#info-left"
          aria-label="Aller aux informations de localisation">
         <img class="hm-logo"
-             src="mqy9gc74-3d-pin-point-map-gps-3d-rendering-png.webp"
+             src="images/location-pin.webp"
              alt="Localisation" loading="lazy">
         <div class="hm-body">
           <span class="h-meta-v">Carmaux</span>
@@ -1315,7 +1355,7 @@ footer {
       </a>
       <div class="hm-item">
         <img class="hm-logo hm-logo-halal"
-             src="mqy94daz-Halal_logo.svg.png"
+             src="images/halal-logo.png"
              alt="Halal certifié" loading="lazy">
         <div class="hm-body">
           <span class="h-meta-v">Halal</span>
@@ -1475,8 +1515,8 @@ footer {
     <p class="hist-p rv">Famille, amis, collègues ou solo pressé — B.Burger vous accueille avec le même sourire et la même générosité. C'est ça, l'esprit Carmaux.</p>
     <div class="hist-img rv">
       <img class="hist-img-photo"
-           src="mqyaqtmn-f4e5eb3f-32f3-465a-99c5-96d785b1c237.png"
-           alt="La cuisine B.Burger" loading="lazy">
+           src="images/kitchen-bburger.jpg"
+           alt="Cuisine B.Burger Carmaux" loading="lazy" decoding="async">
     </div>
   </div>
 </section>
@@ -1564,11 +1604,11 @@ footer {
 
     <!-- 5 états du bowl — crossfade piloté par GSAP + scroll -->
     <div class="bb-imgs" id="bb-imgs">
-      <img class="bb-state" id="bb-s1" src="mqxtdebn-ChatGPT-Image-28-juin-2026_-15_15_21.png" alt="B Bowl — Frites maison">
-      <img class="bb-state" id="bb-s2" src="mqxtdect-ChatGPT-Image-28-juin-2026_-15_15_38-_1_.png" alt="B Bowl — Sauce fromagère">
-      <img class="bb-state" id="bb-s3" src="mqxtdegd-ChatGPT-Image-28-juin-2026_-15_15_39-_2_.png" alt="B Bowl — Merguez halal">
-      <img class="bb-state" id="bb-s4" src="mqxtdehy-ChatGPT-Image-28-juin-2026_-15_15_39-_3_.png" alt="B Bowl — Poivrons sautés">
-      <img class="bb-state" id="bb-s5" src="mqxtdekd-ChatGPT-Image-28-juin-2026_-15_15_39-_4_.png" alt="B Bowl — Mozzarella">
+      <img class="bb-state" id="bb-s1" src="images/bbowl-fries.jpg" alt="B Bowl généreuse" loading="lazy" decoding="async">
+      <img class="bb-state" id="bb-s2" src="images/bbowl-cheese-sauce.jpg" alt="B Bowl sauce fromagère" loading="lazy" decoding="async">
+      <img class="bb-state" id="bb-s3" src="images/bbowl-merguez.jpg" alt="B Bowl merguez halal" loading="lazy" decoding="async">
+      <img class="bb-state" id="bb-s4" src="images/bbowl-peppers.jpg" alt="B Bowl poivrons grillés" loading="lazy" decoding="async">
+      <img class="bb-state" id="bb-s5" src="images/bbowl-mozzarella.jpg" alt="B Bowl mozzarella" loading="lazy" decoding="async">
     </div>
 
     <!-- Label de l'étape active -->
@@ -1616,87 +1656,87 @@ footer {
 
   <div class="panel on" id="p-burgers">
     <div class="menu-g">
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .09 60),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Cheese Burger</h3><p class="p-desc">Steak haché, cheddar, sauce burger, salade, tomate, oignons.</p><div class="p-foot"><span class="p-price"><sup>€</sup>6</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .10 62),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Double Cheese</h3><p class="p-desc">Double steak, double cheddar, sauce maison, oignons, cornichons, brioche grillée.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .11 58),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Giant Burger</h3><p class="p-desc">Le plus généreux — steak XXL, double fromage, sauce spéciale, garnitures fraîches.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .08 42),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bo">Épicé</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Pepper Burger</h3><p class="p-desc">Steak haché, poivrons grillés, sauce poivre, cheddar, salade fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>9</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .09 55),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bn">Nouveau</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Raclette Burger</h3><p class="p-desc">Steak haché, raclette fondue, charcuterie halal, cornichons, moutarde artisanale.</p><div class="p-foot"><span class="p-price"><sup>€</sup>9</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(38% .09 70),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Brie Burger</h3><p class="p-desc">Steak haché, brie fondant, confiture d'oignons, roquette, noix.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .08 48),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tender Burger</h3><p class="p-desc">Filet de poulet croustillant, sauce ranch, cheddar, salade, cornichons.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(35% .10 64),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Gaunty Burger</h3><p class="p-desc">Double steak, bacon halal, oeuf, fromage fondu, sauce BBQ maison.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Cheese Burger</h3><p class="p-desc">Steak haché, cheddar, sauce burger, salade, tomate, oignons.</p><div class="p-foot"><span class="p-price"><sup>€</sup>6</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Double Cheese</h3><p class="p-desc">Double steak, double cheddar, sauce maison, oignons, cornichons, brioche grillée.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Giant Burger</h3><p class="p-desc">Le plus généreux — steak XXL, double fromage, sauce spéciale, garnitures fraîches.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bo">Épicé</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Pepper Burger</h3><p class="p-desc">Steak haché, poivrons grillés, sauce poivre, cheddar, salade fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>9</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bn">Nouveau</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Raclette Burger</h3><p class="p-desc">Steak haché, raclette fondue, charcuterie halal, cornichons, moutarde artisanale.</p><div class="p-foot"><span class="p-price"><sup>€</sup>9</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Brie Burger</h3><p class="p-desc">Steak haché, brie fondant, confiture d'oignons, roquette, noix.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tender Burger</h3><p class="p-desc">Filet de poulet croustillant, sauce ranch, cheddar, salade, cornichons.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Gaunty Burger</h3><p class="p-desc">Double steak, bacon halal, oeuf, fromage fondu, sauce BBQ maison.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
     </div>
   </div>
 
   <div class="panel" id="p-tacos">
     <div class="menu-g">
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .12 70),oklch(11% .013 60))">🌮</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Simple</h3><p class="p-desc">1 viande, sauce au choix, fromage fondu, galette fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(38% .13 68),oklch(11% .013 60))">🌮</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Double</h3><p class="p-desc">2 viandes, sauce au choix, fromage fondu, garnitures fraîches.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(40% .13 70),oklch(11% .013 60))">🌮</div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Triple</h3><p class="p-desc">3 viandes, sauce au choix, double fromage fondu, galette croustillante.</p><div class="p-foot"><span class="p-price"><sup>€</sup>15</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(42% .14 68),oklch(11% .013 60))">🌮</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Giga</h3><p class="p-desc">6 viandes — pour les plus courageux. Sauce au choix, fromage XXL.</p><div class="p-foot"><span class="p-price"><sup>€</sup>27</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .11 65),oklch(11% .013 60))">🧀</div><div class="p-badges"><span class="badge bn">Nouveau</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Gratiné</h3><p class="p-desc">Tacos gratiné au four, fromage doré, croustillant à l'extérieur, fondant à l'intérieur.</p><div class="p-foot"><span class="p-price">Sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Simple</h3><p class="p-desc">1 viande, sauce au choix, fromage fondu, galette fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Double</h3><p class="p-desc">2 viandes, sauce au choix, fromage fondu, garnitures fraîches.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Triple</h3><p class="p-desc">3 viandes, sauce au choix, double fromage fondu, galette croustillante.</p><div class="p-foot"><span class="p-price"><sup>€</sup>15</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Giga</h3><p class="p-desc">6 viandes — pour les plus courageux. Sauce au choix, fromage XXL.</p><div class="p-foot"><span class="p-price"><sup>€</sup>27</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bn">Nouveau</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Gratiné</h3><p class="p-desc">Tacos gratiné au four, fromage doré, croustillant à l'extérieur, fondant à l'intérieur.</p><div class="p-foot"><span class="p-price">Sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
     </div>
   </div>
 
   <div class="panel" id="p-kebabs">
     <div class="menu-g">
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .08 35),oklch(11% .013 60))">🥙</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Kebab Seul</h3><p class="p-desc">Viande de veau rôtie, sauce maison, salade, tomate, oignons, galette fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>6</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .09 38),oklch(11% .013 60))">🥙</div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Kebab + Frites</h3><p class="p-desc">Kebab maison accompagné de frites croustillantes fraîchement préparées.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .10 40),oklch(11% .013 60))">🥙</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Kebab Menu Complet</h3><p class="p-desc">Kebab + Frites + Boisson 33cl. Le repas complet idéal.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .08 33),oklch(11% .013 60))">🫓</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Galette Kebab</h3><p class="p-desc">Galette dorée farcie de viande rôtie, sauce et légumes frais.</p><div class="p-foot"><span class="p-price"><sup>€</sup>6<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(28% .07 35),oklch(11% .013 60))">🥩</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Barquette de Viande</h3><p class="p-desc">Viande rôtie en barquette, sauce au choix, accompagnement inclus.</p><div class="p-foot"><span class="p-price"><sup>€</sup>4</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Kebab Seul</h3><p class="p-desc">Viande de veau rôtie, sauce maison, salade, tomate, oignons, galette fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>6</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Kebab + Frites</h3><p class="p-desc">Kebab maison accompagné de frites croustillantes fraîchement préparées.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Kebab Menu Complet</h3><p class="p-desc">Kebab + Frites + Boisson 33cl. Le repas complet idéal.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Galette Kebab</h3><p class="p-desc">Galette dorée farcie de viande rôtie, sauce et légumes frais.</p><div class="p-foot"><span class="p-price"><sup>€</sup>6<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Barquette de Viande</h3><p class="p-desc">Viande rôtie en barquette, sauce au choix, accompagnement inclus.</p><div class="p-foot"><span class="p-price"><sup>€</sup>4</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
     </div>
   </div>
 
   <div class="panel" id="p-paninis">
     <div class="menu-g">
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .09 50),oklch(11% .013 60))">🥪</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Panini Kebab</h3><p class="p-desc">Pain ciabatta grillé, viande rôtie, sauce maison, fromage fondu.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .08 45),oklch(11% .013 60))">🥪</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Panini Steak</h3><p class="p-desc">Pain grillé, steak émincé, emmental fondu, sauce poivre ou mayo.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .09 48),oklch(11% .013 60))">🥪</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Panini Chicken</h3><p class="p-desc">Escalope de poulet grillée, sauce ranch, cheddar, tomate, roquette.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(38% .12 40),oklch(11% .013 60))">🍫</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Panini Nutella</h3><p class="p-desc">Pain brioché toasté, Nutella généreux. La douceur de la maison.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Panini Kebab</h3><p class="p-desc">Pain ciabatta grillé, viande rôtie, sauce maison, fromage fondu.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Panini Steak</h3><p class="p-desc">Pain grillé, steak émincé, emmental fondu, sauce poivre ou mayo.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Panini Chicken</h3><p class="p-desc">Escalope de poulet grillée, sauce ranch, cheddar, tomate, roquette.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Panini Nutella</h3><p class="p-desc">Pain brioché toasté, Nutella généreux. La douceur de la maison.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
     </div>
   </div>
 
   <div class="panel" id="p-bowls">
     <div class="menu-g">
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .10 145),oklch(11% .013 60))">🥣</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl Savoyarde</h3><p class="p-desc">Viande, raclette fondue, pommes de terre, oignons caramélisés, herbes.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .11 148),oklch(11% .013 60))">🥣</div><div class="p-badges"><span class="badge bn">Nouveau</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl Chèvre-Miel</h3><p class="p-desc">Roquette, chèvre frais, miel, noix, tomates cerises, viande grillée.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .12 143),oklch(11% .013 60))">🥣</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl Oriental</h3><p class="p-desc">Couscous, pois chiches, légumes grillés, harissa douce, viande épicée.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .13 145),oklch(11% .013 60))">🥣</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl à Composer</h3><p class="p-desc">Votre bowl sur mesure — choisissez base, protéine, garnitures et sauce.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl Savoyarde</h3><p class="p-desc">Viande, raclette fondue, pommes de terre, oignons caramélisés, herbes.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bn">Nouveau</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl Chèvre-Miel</h3><p class="p-desc">Roquette, chèvre frais, miel, noix, tomates cerises, viande grillée.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl Oriental</h3><p class="p-desc">Couscous, pois chiches, légumes grillés, harissa douce, viande épicée.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl à Composer</h3><p class="p-desc">Votre bowl sur mesure — choisissez base, protéine, garnitures et sauce.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
     </div>
   </div>
 
   <div class="panel" id="p-assiettes">
     <div class="menu-g">
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .10 72),oklch(11% .013 60))">🍽</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Assiette 1 Viande</h3><p class="p-desc">1 viande au choix, frites maison, sauce au choix. Simple et généreux.</p><div class="p-foot"><span class="p-price"><sup>€</sup>9</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .11 70),oklch(11% .013 60))">🍽</div><div class="p-badges"><span class="badge bg">Populaire</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Assiette 2 Viandes</h3><p class="p-desc">2 viandes au choix, frites maison, sauce au choix. Pour les bons appétits.</p><div class="p-foot"><span class="p-price"><sup>€</sup>11</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .12 68),oklch(11% .013 60))">🍽</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Assiette 3 Viandes</h3><p class="p-desc">3 viandes au choix, frites maison, sauce au choix. Le festin complet.</p><div class="p-foot"><span class="p-price"><sup>€</sup>16</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .11 75),oklch(11% .013 60))">🪣</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Royal Bucket</h3><p class="p-desc">4 viandes + accompagnements au choix. Pour partager entre amis ou en famille.</p><div class="p-foot"><span class="p-price"><sup>€</sup>35</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Assiette 1 Viande</h3><p class="p-desc">1 viande au choix, frites maison, sauce au choix. Simple et généreux.</p><div class="p-foot"><span class="p-price"><sup>€</sup>9</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bg">Populaire</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Assiette 2 Viandes</h3><p class="p-desc">2 viandes au choix, frites maison, sauce au choix. Pour les bons appétits.</p><div class="p-foot"><span class="p-price"><sup>€</sup>11</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Assiette 3 Viandes</h3><p class="p-desc">3 viandes au choix, frites maison, sauce au choix. Le festin complet.</p><div class="p-foot"><span class="p-price"><sup>€</sup>16</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Royal Bucket</h3><p class="p-desc">4 viandes + accompagnements au choix. Pour partager entre amis ou en famille.</p><div class="p-foot"><span class="p-price"><sup>€</sup>35</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
     </div>
   </div>
 
   <div class="panel" id="p-salades">
     <div class="menu-g">
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .14 140),oklch(11% .013 60))">🥗</div><div class="p-badges"><span class="badge bv">Végétarien</span></div></div><div class="p-body"><h3 class="p-name">Salade Veggie</h3><p class="p-desc">Mélange de jeunes pousses, tomates cerises, concombre, avocat, vinaigrette maison.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .12 142),oklch(11% .013 60))">🥗</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Salade Tender</h3><p class="p-desc">Tenders de poulet croustillants sur lit de salade, sauce ranch, parmesan, croûtons.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .14 143),oklch(11% .013 60))">🥗</div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Salade Pop's</h3><p class="p-desc">Poulet popcorn croustillant, salade iceberg, maïs, tomates, sauce BBQ-mayo.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Végétarien</span></div></div><div class="p-body"><h3 class="p-name">Salade Veggie</h3><p class="p-desc">Mélange de jeunes pousses, tomates cerises, concombre, avocat, vinaigrette maison.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Salade Tender</h3><p class="p-desc">Tenders de poulet croustillants sur lit de salade, sauce ranch, parmesan, croûtons.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Salade Pop's</h3><p class="p-desc">Poulet popcorn croustillant, salade iceberg, maïs, tomates, sauce BBQ-mayo.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
     </div>
   </div>
 
   <div class="panel" id="p-desserts">
     <div class="menu-g">
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .12 35),oklch(11% .013 60))">🥤</div><div class="p-badges"><span class="badge bg">Best Seller</span></div></div><div class="p-body"><h3 class="p-name">Milkshake</h3><p class="p-desc">Nutella, Oreo ou Kinder Bueno. Épais, crémeux, irrésistible.</p><div class="p-foot"><span class="p-price"><sup>€</sup>4</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .13 30),oklch(11% .013 60))">🍓</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Smoothie Frais</h3><p class="p-desc">Fraise, Fruits rouges, Banane ou Mangue. 100% fruits, sans sucre ajouté.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .11 38),oklch(11% .013 60))">🍩</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Donut</h3><p class="p-desc">Donut moelleux du jour, glacé à la vanille ou au chocolat.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .10 32),oklch(11% .013 60))">🍮</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Tarte Daim</h3><p class="p-desc">Tarte croustillante au caramel et éclats de Daim. La surprise sucrée.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .09 30),oklch(11% .013 60))">☕</div><div class="p-badges"><span class="badge bn">Maison</span></div></div><div class="p-body"><h3 class="p-name">Tiramisu</h3><p class="p-desc">Tiramisu maison, mascarpone, café, cacao. La douceur italienne.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2<sup style="font-size:.6rem">,8</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(28% .10 28),oklch(11% .013 60))">🧇</div><div class="p-badges"><span class="badge bg">Favori</span></div></div><div class="p-body"><h3 class="p-name">Gaufre Chocolat</h3><p class="p-desc">Gaufre croustillante, Nutella, crème fouettée maison. Le péché mignon.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bg">Best Seller</span></div></div><div class="p-body"><h3 class="p-name">Milkshake</h3><p class="p-desc">Nutella, Oreo ou Kinder Bueno. Épais, crémeux, irrésistible.</p><div class="p-foot"><span class="p-price"><sup>€</sup>4</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Smoothie Frais</h3><p class="p-desc">Fraise, Fruits rouges, Banane ou Mangue. 100% fruits, sans sucre ajouté.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Donut</h3><p class="p-desc">Donut moelleux du jour, glacé à la vanille ou au chocolat.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Tarte Daim</h3><p class="p-desc">Tarte croustillante au caramel et éclats de Daim. La surprise sucrée.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bn">Maison</span></div></div><div class="p-body"><h3 class="p-name">Tiramisu</h3><p class="p-desc">Tiramisu maison, mascarpone, café, cacao. La douceur italienne.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2<sup style="font-size:.6rem">,8</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"><span class="badge bg">Favori</span></div></div><div class="p-body"><h3 class="p-name">Gaufre Chocolat</h3><p class="p-desc">Gaufre croustillante, Nutella, crème fouettée maison. Le péché mignon.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
     </div>
   </div>
 
   <div class="panel" id="p-boissons">
     <div class="menu-g">
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(28% .10 240),oklch(11% .013 60))">🥤</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Boisson 33 cl</h3><p class="p-desc">Coca-Cola, Fanta, Sprite, Oasis... au choix, bien fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
-      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(26% .09 235),oklch(11% .013 60))">🍶</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Bouteille 1,5 L</h3><p class="p-desc">Eau plate, eau pétillante ou soda bouteille familiale.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Boisson 33 cl</h3><p class="p-desc">Coca-Cola, Fanta, Sprite, Oasis... au choix, bien fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg"></div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Bouteille 1,5 L</h3><p class="p-desc">Eau plate, eau pétillante ou soda bouteille familiale.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
     </div>
   </div>
 </section>
@@ -1707,11 +1747,11 @@ footer {
     <p class="eyebrow rv">Galerie</p>
     <h2 class="s-title rv">La <em>générosité</em><br>dans chaque assiette.</h2>
     <div class="gal-mosaic stg">
-      <div class="gal-item gi1"><div class="gal-item-bg"></div><span class="gal-item-lbl">Burger XXL</span></div>
-      <div class="gal-item gi2"><div class="gal-item-bg"></div><span class="gal-item-lbl">Tacos gratiné</span></div>
-      <div class="gal-item gi3"><div class="gal-item-bg"></div><span class="gal-item-lbl">Kebab maison</span></div>
-      <div class="gal-item gi4"><div class="gal-item-bg"></div><span class="gal-item-lbl">B-Bowl du jour</span></div>
-      <div class="gal-item gi5"><div class="gal-item-bg"></div><span class="gal-item-lbl">Milkshake</span></div>
+      <div class="gal-item gi1"><img class="gal-item-img" src="images/gallery-burger-xxl.jpg" alt="Burger XXL B.Burger" loading="lazy" decoding="async"><span class="gal-item-lbl">Burger XXL</span></div>
+      <div class="gal-item gi2"><img class="gal-item-img" src="images/gallery-tacos-gratine.jpg" alt="Tacos gratiné halal" loading="lazy" decoding="async"><span class="gal-item-lbl">Tacos gratiné</span></div>
+      <div class="gal-item gi3"><img class="gal-item-img" src="images/gallery-kebab.jpg" alt="Kebab maison" loading="lazy" decoding="async"><span class="gal-item-lbl">Kebab maison</span></div>
+      <div class="gal-item gi4"><img class="gal-item-img" src="images/bbowl-mozzarella.jpg" alt="B Bowl généreuse" loading="lazy" decoding="async"><span class="gal-item-lbl">B-Bowl du jour</span></div>
+      <div class="gal-item gi5"><img class="gal-item-img" src="images/gallery-milkshake.jpg" alt="Milkshake gourmand" loading="lazy" decoding="async"><span class="gal-item-lbl">Milkshake</span></div>
     </div>
   </div>
 </section>
@@ -1894,6 +1934,25 @@ footer {
 
 <!-- ─── JAVASCRIPT ────────────────────────────────────────── -->
 <script>
+const IMAGE_ASSETS = {
+  heroBurger: 'images/hero-burger.jpg',
+  googleRatingBadge: 'images/google-rating-badge.png',
+  halalCertified: 'images/halal-certified.jpg',
+  halalLogo: 'images/halal-logo.png',
+  locationPin: 'images/location-pin.webp',
+  kitchen: 'images/kitchen-bburger.jpg',
+  bbowlFries: 'images/bbowl-fries.jpg',
+  bbowlCheeseSauce: 'images/bbowl-cheese-sauce.jpg',
+  bbowlMerguez: 'images/bbowl-merguez.jpg',
+  bbowlPeppers: 'images/bbowl-peppers.jpg',
+  bbowlMozzarella: 'images/bbowl-mozzarella.jpg',
+  galleryBurgerXxl: 'images/gallery-burger-xxl.jpg',
+  galleryTacosGratine: 'images/gallery-tacos-gratine.jpg',
+  galleryKebab: 'images/gallery-kebab.jpg',
+  galleryBbowl: 'images/bbowl-mozzarella.jpg',
+  galleryMilkshake: 'images/gallery-milkshake.jpg'
+};
+
 /* --- Custom cursor --- */
 const cur = document.getElementById('cur');
 const curR = document.getElementById('cur-r');
@@ -1984,12 +2043,14 @@ paras.forEach(p => ioPara.observe(p));
 
 /* --- Parallax hero (bg + burger at different rates) --- */
 const heroBg = document.querySelector('.hero-bg');
+const heroPhoto = document.querySelector('.hero-photo');
 const heroVis = document.querySelector('.hero-vis');
 const heroNoise = document.querySelector('.hero-noise');
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
   const vh = window.innerHeight;
   if (y > vh) return;
+  if (heroPhoto) heroPhoto.style.transform = `translateY(${y * 0.18}px)`;
   if (heroBg)   heroBg.style.transform   = `translateY(${y * 0.28}px)`;
   if (heroNoise) heroNoise.style.transform = `translateY(${y * 0.28}px)`;
   if (heroVis)  heroVis.style.transform   = `translateY(${y * 0.12}px)`;
