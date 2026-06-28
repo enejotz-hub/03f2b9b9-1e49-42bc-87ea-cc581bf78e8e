@@ -1,0 +1,2145 @@
+<!doctype html>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.Burger — Le Goût du Vrai Burger à Carmaux</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Cormorant+Garamond:ital,wght@1,600;1,700&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&amp;display=swap" rel="stylesheet">
+<style>
+/* ─── DESIGN SYSTEM ─────────────────────────────────────── */
+:root {
+  --bg:        oklch(4% 0.005 60);
+  --bg-warm:   oklch(7% 0.010 58);
+  --surface:   oklch(11% 0.012 62);
+  --surface2:  oklch(16% 0.015 60);
+  --fg:        oklch(96% 0.006 80);
+  --muted:     oklch(62% 0.016 72);
+  --border:    oklch(19% 0.016 64);
+  --gold:      oklch(77% 0.20 88);
+  --gold-dim:  oklch(61% 0.14 82);
+  --green:     oklch(52% 0.15 145);
+  --orange:    oklch(64% 0.19 38);
+  --font-d:    'Bebas Neue', 'Impact', Arial Narrow, sans-serif;
+  --font-s:    'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-b:    'DM Sans', system-ui, -apple-system, sans-serif;
+  --r:         4px;
+  --rl:        12px;
+  --rx:        18px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-b);
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── CURSOR ─────────────────────────────────────────────── */
+#cur {
+  position: fixed; width: 10px; height: 10px;
+  background: var(--gold); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .15s, height .15s;
+  mix-blend-mode: difference;
+}
+#cur-r {
+  position: fixed; width: 34px; height: 34px;
+  border: 1.5px solid oklch(77% 0.20 88 / .5);
+  border-radius: 50%; pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform .1s ease-out, width .25s, height .25s;
+}
+
+/* ─── NAV ────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.4rem 3rem;
+  transition: background .4s, backdrop-filter .4s, padding .3s, border-color .3s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: oklch(4% 0.005 60 / .92);
+  backdrop-filter: blur(22px) saturate(1.4);
+  padding: 0.9rem 3rem;
+  border-bottom-color: oklch(77% 0.20 88 / .12);
+}
+.nav-logo {
+  font-family: var(--font-d); font-size: 1.9rem; letter-spacing: .04em;
+  color: var(--fg); text-decoration: none; line-height: 1;
+  display: flex; flex-direction: column; gap: .05em;
+}
+.nav-logo span { color: var(--gold); }
+.nav-logo sub {
+  font-family: var(--font-b); font-size: .5rem;
+  letter-spacing: .32em; color: var(--gold);
+  text-transform: uppercase; font-weight: 600;
+  vertical-align: middle; bottom: 0;
+}
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a {
+  color: oklch(88% 0.008 78); text-decoration: none;
+  font-size: .76rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  transition: color .2s; position: relative;
+}
+.nav-links a:hover { color: var(--fg); }
+.nav-links li:first-child > a { color: var(--gold); }
+.nav-links li:first-child > a::after {
+  content: ''; position: absolute; bottom: -6px; left: 0; right: 0;
+  height: 1.5px; background: var(--gold); border-radius: 1px;
+}
+.nav-cta {
+  background: var(--gold); color: oklch(4% 0.005 60);
+  padding: .65rem 1.6rem; border-radius: 4px;
+  font-weight: 700; font-size: .76rem;
+  text-decoration: none; letter-spacing: .08em; text-transform: uppercase;
+  transition: background .2s, transform .2s, box-shadow .2s;
+  display: inline-flex; align-items: center; gap: .45rem;
+}
+.nav-cta:hover { background: oklch(82% .20 88); transform: translateY(-1px); box-shadow: 0 4px 18px oklch(77% .20 88 / .32); }
+
+/* ─── HERO ───────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; gap: 2rem;
+  padding: 9rem 3rem 5rem;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    linear-gradient(108deg,
+      oklch(4% 0 0 / .98) 0%,
+      oklch(4% 0 0 / .88) 30%,
+      oklch(4% 0 0 / .55) 55%,
+      oklch(4% 0 0 / .12) 80%,
+      transparent 100%),
+    radial-gradient(ellipse 60% 50% at 10% 85%, oklch(4% 0 0 / .85) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 35% at 50% 100%, oklch(4% 0 0 / .6) 0%, transparent 60%),
+    url('mqwkt1gp-ChatGPT-Image-27-juin-2026_-18_28_47.png') 62% center / cover no-repeat;
+}
+.hero-c { position: relative; z-index: 2; max-width: 660px; }
+.hero-eye {
+  display: flex; align-items: center; gap: .75rem;
+  font-size: .7rem; font-weight: 700; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem;
+  text-shadow: 0 1px 6px oklch(0% 0 0 / .6);
+}
+.hero-eye::before {
+  content: ''; display: block;
+  width: 28px; height: 1.5px; background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+}
+.hero-h1 {
+  font-family: var(--font-d);
+  font-size: clamp(68px, 8.5vw, 136px);
+  line-height: .91; letter-spacing: -.01em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  color: var(--gold);
+  text-shadow: 0 2px 24px oklch(0% 0 0 / .5);
+}
+.hero-h1::first-line {
+  font-family: var(--font-s);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: .04em;
+}
+.hero-h1 em { font-style: normal; color: var(--fg); display: inline; }
+.hero-sub {
+  color: oklch(78% 0.012 78); font-size: clamp(.95rem, 1.3vw, 1.08rem);
+  max-width: 420px; margin-bottom: 2.5rem; line-height: 1.78;
+  text-shadow: 0 1px 6px oklch(0% 0 0 / .45);
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.btn-p {
+  background: var(--gold); color: oklch(4% 0.005 60);
+  padding: 1rem 2.1rem; border-radius: 4px;
+  font-weight: 700; font-size: .84rem;
+  text-decoration: none; letter-spacing: .07em; text-transform: uppercase;
+  transition: background .2s, transform .2s, box-shadow .2s;
+  display: inline-flex; align-items: center; gap: .5rem;
+  position: relative; overflow: hidden;
+}
+.btn-p::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, oklch(98% 0 0 / .18) 50%, transparent 70%);
+  transform: translateX(-115%); transition: transform .55s ease;
+}
+.btn-p:hover::before { transform: translateX(115%); }
+.btn-p:hover { background: oklch(82% .20 88); transform: translateY(-2px); box-shadow: 0 10px 28px oklch(77% .20 88 / .32); }
+.btn-s {
+  border: 1.5px solid oklch(88% 0.008 78 / .55); color: var(--fg);
+  padding: 1rem 2.1rem; border-radius: 4px;
+  font-weight: 600; font-size: .84rem;
+  text-decoration: none; letter-spacing: .07em; text-transform: uppercase;
+  transition: border-color .2s, color .2s, transform .2s, background .2s;
+  display: inline-flex; align-items: center; gap: .5rem;
+}
+.btn-s:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); background: oklch(77% .20 88 / .06); }
+
+.hero-meta {
+  margin-top: 3rem; padding-top: 2rem;
+  border-top: 1px solid oklch(77% .20 88 / .22);
+  display: flex; gap: 0; flex-wrap: wrap; align-items: center;
+}
+.hm-item {
+  display: flex; align-items: center; gap: .85rem;
+  padding-right: 2.2rem;
+}
+.hm-item:not(:last-child) {
+  margin-right: 2.2rem;
+  border-right: 1px solid oklch(19% 0.016 64);
+}
+.hm-logo {
+  width: 40px; height: 40px;
+  object-fit: contain; flex-shrink: 0; display: block;
+}
+/* Google : fond blanc carré → clip en cercle pour aspect badge */
+.hm-logo-google { border-radius: 50%; }
+/* Halal : fond blanc carré avec cercle vert → clip en cercle */
+.hm-logo-halal  { border-radius: 50%; }
+.hm-body { display: flex; flex-direction: column; gap: 0; }
+.hm-stars {
+  font-size: .58rem; color: var(--gold);
+  letter-spacing: .05em; line-height: 1.3;
+  margin-bottom: .08rem; display: block;
+}
+.hm-item-link {
+  text-decoration: none; color: inherit;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.hm-item-link:hover { opacity: .75; }
+.h-meta-v {
+  font-family: var(--font-d); font-size: 1.75rem; color: var(--gold);
+  display: block; line-height: 1;
+  text-shadow: 0 0 32px oklch(77% .20 88 / .28);
+}
+.h-meta-l {
+  font-size: .68rem; color: oklch(70% 0.014 75);
+  text-transform: uppercase; letter-spacing: .12em; margin-top: .25rem;
+}
+
+/* Hero visual — CSS burger hidden: photo background replaces it */
+.hero-vis {
+  display: none;
+}
+.burger-plate {
+  position: relative;
+  width: clamp(260px, 38vw, 480px);
+  height: clamp(260px, 38vw, 480px);
+}
+.b-glow {
+  position: absolute; inset: -15%; border-radius: 50%;
+  background: radial-gradient(circle, oklch(74% .17 82 / .18) 0%, transparent 68%);
+  animation: pglow 3s ease-in-out infinite;
+}
+@keyframes pglow { 0%,100%{opacity:.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.06)} }
+
+.b-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid oklch(74% .17 82 / .12);
+  animation: pring 3.5s ease-out infinite;
+}
+.b-ring:nth-child(2){ inset:4%; animation-delay:0s; }
+.b-ring:nth-child(3){ inset:14%; border-style:dashed; animation-delay:.6s; }
+@keyframes pring {
+  0%{opacity:0;transform:scale(.9)}
+  30%{opacity:.7}
+  100%{opacity:0;transform:scale(1.04)}
+}
+
+.burger-tower {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  width: 66%; animation: bfloat 3s ease-in-out infinite;
+}
+@keyframes bfloat {
+  0%,100%{ transform:translate(-50%,-50%) translateY(0) }
+  50%{ transform:translate(-50%,-50%) translateY(-14px) }
+}
+
+.bun-top {
+  width: 100%; padding-bottom: 42%; position: relative;
+  background: radial-gradient(ellipse at 50% 38%, oklch(72% .17 72), oklch(56% .13 60) 45%, oklch(42% .09 50) 100%);
+  border-radius: 50% 50% 22% 22% / 62% 62% 22% 22%;
+  margin-bottom: -5%;
+  box-shadow: 0 5px 14px oklch(18% .04 50 / .6), inset 0 -8px 14px oklch(36% .08 50 / .4);
+  z-index: 8;
+}
+.bun-top::after {
+  content: ''; position: absolute; inset: 18% 22% 42%;
+  background: radial-gradient(ellipse, oklch(84% .10 78 / .28) 0%, transparent 70%);
+  border-radius: 50%;
+}
+/* sesame dots */
+.bun-top::before {
+  content: ''; position: absolute; inset: 10% 18% 30%;
+  background-image:
+    radial-gradient(circle 3px at 30% 35%, oklch(78% .14 76) 0%, transparent 100%),
+    radial-gradient(circle 2.5px at 55% 25%, oklch(78% .14 76) 0%, transparent 100%),
+    radial-gradient(circle 2px at 70% 40%, oklch(78% .14 76) 0%, transparent 100%),
+    radial-gradient(circle 2.5px at 45% 55%, oklch(78% .14 76) 0%, transparent 100%),
+    radial-gradient(circle 2px at 20% 55%, oklch(78% .14 76) 0%, transparent 100%),
+    radial-gradient(circle 3px at 62% 60%, oklch(78% .14 76) 0%, transparent 100%);
+  border-radius: 50%;
+}
+.b-lettuce {
+  width: 106%; margin-left: -3%; height: 18px;
+  background: linear-gradient(180deg, oklch(55% .19 143), oklch(44% .15 143));
+  clip-path: polygon(0 55%,4% 0,9% 55%,14% 0,19% 55%,24% 0,29% 55%,34% 0,39% 55%,44% 0,49% 55%,54% 0,59% 55%,64% 0,69% 55%,74% 0,79% 55%,84% 0,89% 55%,94% 0,100% 55%,100% 100%,0 100%);
+  position: relative; z-index: 7; margin-bottom: -3px;
+}
+.b-tomato {
+  width: 94%; margin: 0 3% 2px;
+  height: 9px;
+  background: linear-gradient(180deg, oklch(53% .20 25), oklch(44% .16 22));
+  border-radius: 3px; position: relative; z-index: 6;
+}
+.b-cheese {
+  width: 106%; margin: 0 -3% 0;
+  height: 7px;
+  background: linear-gradient(180deg, oklch(78% .18 78), oklch(64% .16 72));
+  position: relative; z-index: 5;
+  clip-path: polygon(3% 0,97% 0,100% 70%,100% 100%,0 100%,0 70%);
+}
+.b-meat {
+  height: 30px;
+  background: radial-gradient(ellipse at 50% 30%, oklch(30% .06 42), oklch(20% .04 38) 60%, oklch(14% .03 35));
+  border-radius: 6px; position: relative; z-index: 4;
+  box-shadow: inset 0 2px 8px oklch(10% .02 30 / .8);
+}
+.b-meat::before {
+  content: ''; position: absolute; top: 33%; left: 12%; right: 12%; height: 2px;
+  background: repeating-linear-gradient(90deg,oklch(26% .05 38/.6) 0%,oklch(26% .05 38/.6) 5px,transparent 5px,transparent 9px);
+}
+.b-bun-bot {
+  height: 20px;
+  background: linear-gradient(180deg, oklch(64% .14 68), oklch(54% .11 58));
+  border-radius: 4px 4px 48% 48% / 4px 4px 38% 38%;
+  z-index: 3; margin-top: -2px;
+  box-shadow: 0 6px 18px oklch(18% .04 50 / .8);
+}
+
+.burger-badge {
+  position: absolute; top: 9%; right: 3%;
+  background: var(--gold); color: var(--bg);
+  font-family: var(--font-d); font-size: .8rem; letter-spacing: .08em;
+  padding: .35rem .7rem; border-radius: 4px;
+  transform: rotate(5deg); z-index: 10;
+}
+
+/* ─── HERO CINEMATIC ENHANCEMENTS ────────────────────────── */
+
+/* Film grain overlay */
+.hero-noise {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  opacity: .042;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 195px;
+}
+
+/* God ray */
+.hero-ray {
+  position: absolute; top: -15%; right: 10%;
+  width: 280px; height: 140%; pointer-events: none; z-index: 1;
+  background: linear-gradient(175deg, oklch(74% .17 82 / .08) 0%, transparent 52%);
+  transform: rotate(-16deg);
+  animation: rayf 8s ease-in-out infinite;
+}
+.hero-ray2 {
+  position: absolute; top: -8%; right: 26%;
+  width: 120px; height: 110%; pointer-events: none; z-index: 1;
+  background: linear-gradient(175deg, oklch(74% .17 82 / .04) 0%, transparent 55%);
+  transform: rotate(-12deg);
+  animation: rayf 11s ease-in-out 3s infinite;
+}
+@keyframes rayf { 0%,100%{ opacity:.9; } 50%{ opacity:.45; } }
+
+/* Vertical side label */
+.hero-aside {
+  display: none;
+  position: absolute; right: 2.2rem; top: 50%; transform: translateY(-50%);
+  writing-mode: vertical-lr; letter-spacing: .32em;
+  font-size: .57rem; font-weight: 600; text-transform: uppercase;
+  color: var(--muted); opacity: .3; z-index: 10; pointer-events: none;
+}
+@media(min-width:1200px){ .hero-aside{ display:block; } }
+
+/* Burger steam wisps */
+.b-steam {
+  position: absolute; bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 12px; align-items: flex-end;
+  pointer-events: none; z-index: 9;
+}
+.b-sw {
+  border-radius: 50px;
+  background: oklch(88% .012 82 / .13);
+  filter: blur(4px);
+  width: 7px;
+  animation: steamr var(--sd,2.4s) ease-out var(--sdl,0s) infinite;
+}
+@keyframes steamr {
+  0%  { height:0; opacity:0; transform:scaleX(1) translateY(0); }
+  18% { opacity:.38; }
+  100%{ height:48px; opacity:0; transform:scaleX(2.4) translateY(-12px); }
+}
+
+/* Sauce drips */
+.b-drip-row {
+  position: relative; height: 0; overflow: visible; z-index: 6;
+}
+.b-drip {
+  position: absolute; top:0; left:29%;
+  width:7px; border-radius:0 0 50% 50%;
+  background:linear-gradient(180deg, oklch(64% .16 72), oklch(60% .14 70));
+  animation:drips 3.4s ease-in-out 1.2s infinite;
+}
+.b-drip2 {
+  position: absolute; top:0; left:63%;
+  width:5px; border-radius:0 0 50% 50%;
+  background:linear-gradient(180deg, oklch(62% .15 38 / .85), oklch(56% .13 35 / .85));
+  animation:drips 4.2s ease-in-out .5s infinite;
+}
+@keyframes drips { 0%,100%{ height:9px; } 50%{ height:20px; } }
+
+/* Burger shine */
+.b-shine {
+  position: absolute; inset: 0;
+  border-radius: 50% 50% 22% 22% / 62% 62% 22% 22%;
+  background: linear-gradient(135deg, oklch(92% .06 82 / .14) 0%, transparent 45%);
+  pointer-events: none; z-index: 9;
+}
+
+/* Floating particles */
+.hero-pt {
+  position: absolute; border-radius: 50%;
+  background: var(--gold); pointer-events: none; opacity: 0;
+  animation: ptrise var(--pt-dur,4s) ease-out var(--pt-dl,0s) infinite;
+}
+@keyframes ptrise {
+  0%  { opacity:0; transform:translateY(0) translateX(0) scale(1); }
+  15% { opacity:.5; }
+  100%{ opacity:0; transform:translateY(-170px) translateX(var(--pt-dx,0px)) scale(.15); }
+}
+
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute; bottom:2.2rem; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:.55rem;
+  z-index:10; pointer-events:none;
+}
+.hero-scroll span {
+  font-size:.58rem; letter-spacing:.22em; text-transform:uppercase; color:var(--muted);
+}
+.hero-scroll-l {
+  width:1px; height:40px;
+  background:linear-gradient(180deg, var(--gold), transparent);
+  animation:ldown 1.9s cubic-bezier(.4,0,.2,1) infinite;
+}
+@keyframes ldown {
+  0%  { transform:scaleY(0); transform-origin:top; opacity:1; }
+  49% { transform:scaleY(1); transform-origin:top; opacity:1; }
+  50% { transform:scaleY(1); transform-origin:bottom; opacity:1; }
+  100%{ transform:scaleY(0); transform-origin:bottom; opacity:0; }
+}
+
+/* ─── TICKER ─────────────────────────────────────────────── */
+.ticker-w {
+  background: var(--gold); overflow: hidden; padding: .6rem 0;
+  position: relative; z-index: 5;
+}
+.ticker-t {
+  display: flex; gap: 0;
+  animation: tick 24s linear infinite;
+  width: max-content; white-space: nowrap;
+}
+.ticker-w:hover .ticker-t { animation-play-state: paused; }
+@keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.tick-i {
+  display: inline-flex; align-items: center; gap: 1.25rem;
+  padding: 0 1.25rem;
+  font-family: var(--font-d); font-size: .85rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--bg);
+}
+.tick-dot { width: 4px; height: 4px; background: var(--bg); border-radius: 50%; flex-shrink: 0; }
+
+/* ─── SECTION BASE ───────────────────────────────────────── */
+section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relative; }
+
+.eyebrow {
+  display: flex; align-items: center; gap: .75rem;
+  font-size: .7rem; font-weight: 600; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: .9rem;
+}
+.eyebrow::before { content: ''; display: block; width: 22px; height: 1.5px; background: var(--gold); }
+
+.s-title {
+  font-family: var(--font-d);
+  font-size: clamp(44px, 6.5vw, 96px);
+  line-height: .93; letter-spacing: -.01em; text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.s-title em { font-style: normal; color: var(--gold); }
+.s-lead { color: var(--muted); max-width: 520px; font-size: 1.05rem; line-height: 1.75; }
+
+/* ─── HISTOIRE ───────────────────────────────────────────── */
+#histoire {
+  background: var(--bg-warm);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+}
+.hist-sticky { position: sticky; top: 8rem; }
+.hist-tags { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.75rem; }
+.htag {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: var(--surface); border: 1px solid var(--border);
+  padding: .5rem 1rem; border-radius: 100px; font-size: .82rem;
+}
+.htag b { color: var(--gold); }
+.hist-paras { padding-top: .5rem; }
+.hist-p {
+  color: var(--muted); font-size: 1rem; line-height: 1.82;
+  margin-bottom: 1.5rem;
+  border-left: 2px solid var(--border); padding-left: 1.2rem;
+  transition: border-color .35s, color .35s;
+}
+.hist-p.lit { border-left-color: var(--gold); color: var(--fg); }
+
+.hist-img {
+  margin-top: 2.5rem; width: 100%; aspect-ratio: 4/3;
+  background: linear-gradient(135deg, var(--surface), var(--surface2));
+  border-radius: var(--rl); overflow: hidden; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.hist-img::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 70%, oklch(40% .10 72 / .28) 0%, transparent 55%),
+    radial-gradient(ellipse at 72% 28%, oklch(52% .14 145 / .10) 0%, transparent 48%);
+}
+.hist-img-lbl {
+  position: relative; z-index: 2;
+  font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: oklch(40% .08 70);
+}
+
+/* ─── ENGAGEMENTS ────────────────────────────────────────── */
+#engagements { background: var(--bg); }
+.eng-head { margin-bottom: 3.5rem; }
+.eng-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1.5px; background: var(--border);
+  border: 1px solid var(--border); border-radius: var(--rl); overflow: hidden;
+}
+.eng-card {
+  background: var(--bg); padding: 2.5rem 2rem;
+  transition: background .3s; cursor: default;
+}
+.eng-card:hover { background: var(--surface); }
+.eng-icon {
+  width: 46px; height: 46px; background: var(--surface2);
+  border-radius: var(--r); display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; margin-bottom: 1.2rem;
+  transition: background .3s, transform .3s;
+}
+.eng-card:hover .eng-icon { background: var(--gold); transform: scale(1.08); }
+.eng-name {
+  font-family: var(--font-d); font-size: 1.3rem;
+  letter-spacing: .05em; text-transform: uppercase; margin-bottom: .45rem;
+  transition: color .3s;
+}
+.eng-card:hover .eng-name { color: var(--gold); }
+.eng-desc { color: var(--muted); font-size: .875rem; line-height: 1.6; }
+
+/* ─── STATS ──────────────────────────────────────────────── */
+#stats { background: var(--gold); padding: 4.5rem 3rem; overflow: hidden; }
+.stats-g {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  max-width: 1200px; margin: 0 auto;
+}
+.stat-i {
+  padding: 1.5rem 2rem; border-right: 1px solid oklch(58% .12 75 / .35);
+  text-align: center;
+}
+.stat-i:last-child { border-right: none; }
+.stat-v {
+  font-family: var(--font-d);
+  font-size: clamp(44px, 6.5vw, 88px);
+  line-height: 1; color: var(--bg);
+  display: block; letter-spacing: -.01em;
+}
+.stat-l {
+  font-size: .72rem; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase;
+  color: oklch(22% .04 55); margin-top: .4rem; display: block;
+}
+
+/* ─── CATEGORIES ─────────────────────────────────────────── */
+#categories { background: var(--bg-warm); }
+.cat-head { margin-bottom: 3rem; }
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-template-rows: repeat(2, 200px);
+  gap: 1rem;
+}
+.cat-card {
+  position: relative; border-radius: var(--rl); overflow: hidden;
+  cursor: pointer; transition: transform .35s ease;
+  text-decoration: none; display: block;
+}
+.cat-card:hover { transform: translateY(-6px); }
+.cat-card.feat { grid-column: span 2; grid-row: span 2; }
+.cat-bg { position: absolute; inset: 0; transition: transform .55s ease; }
+.cat-card:hover .cat-bg { transform: scale(1.06); }
+.cat-ov {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1.25rem;
+  background: linear-gradient(to top, oklch(6% .01 65/.92) 0%, oklch(6% .01 65/.38) 50%, transparent 100%);
+}
+.cat-card.feat .cat-ov { padding: 2rem; }
+.cat-emoji { font-size: 1.8rem; margin-bottom: .4rem; }
+.cat-card.feat .cat-emoji { font-size: 2.8rem; }
+.cat-name {
+  font-family: var(--font-d); font-size: 1.25rem;
+  letter-spacing: .05em; text-transform: uppercase; color: var(--fg);
+}
+.cat-card.feat .cat-name { font-size: 2.2rem; }
+.cat-sub { font-size: .72rem; color: var(--gold); letter-spacing: .08em; margin-top: .15rem; }
+
+/* Category gradient backgrounds */
+.c-burgers .cat-bg  { background: radial-gradient(ellipse at 50% 50%, oklch(34% .10 62), oklch(12% .014 60) 80%); }
+.c-tacos .cat-bg    { background: radial-gradient(ellipse at 50% 50%, oklch(38% .12 70), oklch(12% .014 60) 80%); }
+.c-kebabs .cat-bg   { background: radial-gradient(ellipse at 50% 50%, oklch(30% .08 35), oklch(12% .014 60) 80%); }
+.c-paninis .cat-bg  { background: radial-gradient(ellipse at 50% 50%, oklch(34% .09 55), oklch(12% .014 60) 80%); }
+.c-bowls .cat-bg    { background: radial-gradient(ellipse at 50% 50%, oklch(33% .12 145),oklch(12% .014 60) 80%); }
+.c-menus .cat-bg    { background: radial-gradient(ellipse at 50% 50%, oklch(36% .10 80), oklch(12% .014 60) 80%); }
+.c-desserts .cat-bg { background: radial-gradient(ellipse at 50% 50%, oklch(36% .12 30), oklch(12% .014 60) 80%); }
+.c-boissons .cat-bg { background: radial-gradient(ellipse at 50% 50%, oklch(28% .10 240),oklch(12% .014 60) 80%); }
+
+/* ─── PRODUCT CARD SYSTEM v2 ─────────────────────────────── */
+.p-card {
+  background: var(--surface);
+  border-radius: var(--rl);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform .42s cubic-bezier(.22,1,.36,1), box-shadow .42s, border-color .32s;
+}
+
+/* Gradient inner rim via mask trick — no extra HTML needed */
+.p-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: var(--rl);
+  background: linear-gradient(140deg,
+    oklch(74% .17 82 / .75) 0%,
+    oklch(44% .08 78 / .08) 42%,
+    oklch(74% .17 82 / .38) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  padding: 1.5px;
+  pointer-events: none; opacity: 0;
+  transition: opacity .38s; z-index: 6;
+}
+
+.p-card:hover {
+  transform: translateY(-10px) scale(1.012);
+  border-color: oklch(74% .17 82 / .18);
+  box-shadow:
+    0 26px 56px oklch(0% 0 0 / .52),
+    0 8px 22px oklch(0% 0 0 / .3),
+    0 0 0 1px oklch(74% .17 82 / .06);
+}
+.p-card:hover::after { opacity: 1; }
+
+/* ── Image zone ─────────────────────────────────────────── */
+.p-img {
+  width: 100%; aspect-ratio: 3/2;
+  background: var(--surface2); position: relative; overflow: hidden; flex-shrink: 0;
+}
+
+/* Permanent dark gradient — badge contrast + cinematic depth */
+.p-img::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(to top, oklch(7% .01 58 / .68) 0%, transparent 50%);
+}
+
+.p-img-bg {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 4.2rem;
+  transition: transform .65s cubic-bezier(.22,1,.36,1), filter .5s;
+  filter: drop-shadow(0 8px 18px oklch(0% 0 0 / .58));
+}
+.p-card:hover .p-img-bg {
+  transform: scale(1.13) translateY(-6px);
+  filter: drop-shadow(0 14px 30px oklch(0% 0 0 / .65)) brightness(1.09);
+}
+
+/* Ingredients overlay — slides up on hover (enhanced cards only) */
+.p-img-overlay {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: linear-gradient(0deg,
+    oklch(5% .012 55 / .95) 0%,
+    oklch(5% .012 55 / .3) 52%,
+    transparent 80%);
+  display: flex; align-items: flex-end; padding: .85rem 1rem;
+  opacity: 0; transform: translateY(5px);
+  transition: opacity .38s, transform .4s cubic-bezier(.22,1,.36,1);
+}
+.p-card:hover .p-img-overlay { opacity: 1; transform: translateY(0); }
+
+.p-ovl {
+  font-size: .68rem; color: oklch(85% .01 80);
+  letter-spacing: .06em; line-height: 1.55;
+}
+
+/* Quick-add pill — rises from image bottom on hover */
+.p-quick {
+  position: absolute; bottom: -52px; left: 50%; transform: translateX(-50%);
+  white-space: nowrap;
+  background: var(--gold); color: var(--bg);
+  border: none; padding: .52rem 1.5rem; border-radius: 100px;
+  font-weight: 700; font-size: .72rem; letter-spacing: .07em; text-transform: uppercase;
+  cursor: pointer; font-family: var(--font-b);
+  transition: bottom .4s cubic-bezier(.22,1,.36,1), background .2s;
+  z-index: 5;
+}
+.p-card:hover .p-quick { bottom: 1.1rem; }
+.p-quick:hover { background: oklch(80% .18 82); }
+
+/* ── Badges ─────────────────────────────────────────────── */
+.p-badges {
+  position: absolute; top: .75rem; left: .75rem;
+  display: flex; gap: .35rem; flex-wrap: wrap; z-index: 4;
+}
+.badge {
+  font-size: .58rem; font-weight: 800; letter-spacing: .11em;
+  text-transform: uppercase; padding: .24rem .58rem;
+  border-radius: 5px; backdrop-filter: blur(6px);
+}
+/* Best Seller — or */
+.bg { background: var(--gold); color: var(--bg); box-shadow: 0 2px 8px oklch(74% .17 82 / .35); }
+/* Halal / Végétarien — vert */
+.bv { background: oklch(36% .14 143 / .88); color: oklch(84% .12 143); border: 1px solid oklch(52% .15 143 / .22); }
+/* Épicé — orange */
+.bo { background: oklch(36% .13 38 / .88); color: oklch(84% .14 38); border: 1px solid oklch(54% .16 38 / .22); }
+/* Nouveau / Maison / Favori — violet */
+.bn { background: oklch(36% .16 280 / .88); color: oklch(82% .14 280); border: 1px solid oklch(55% .18 280 / .22); }
+
+/* ── Body ───────────────────────────────────────────────── */
+.p-body { padding: 1.1rem 1.2rem 1.3rem; display: flex; flex-direction: column; flex: 1; }
+
+.p-name {
+  font-family: var(--font-d); font-size: 1.28rem;
+  letter-spacing: .04em; text-transform: uppercase;
+  margin-bottom: .25rem; line-height: 1.1;
+}
+
+.p-desc {
+  color: var(--muted); font-size: .82rem; line-height: 1.55; flex: 1;
+  margin-bottom: .9rem;
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+
+.p-foot {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: .75rem; margin-top: auto;
+}
+
+.p-price {
+  font-family: var(--font-d); font-size: 1.65rem; color: var(--gold);
+  line-height: 1; transition: color .25s;
+}
+.p-card:hover .p-price { color: oklch(82% .18 82); }
+.p-price sup { font-size: .8rem; vertical-align: super; line-height: 0; }
+
+/* ── CTA button avec shimmer ────────────────────────────── */
+.btn-add {
+  background: var(--gold); color: var(--bg); border: none;
+  padding: .6rem 1.1rem; border-radius: var(--r);
+  font-weight: 700; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase;
+  cursor: pointer; font-family: var(--font-b);
+  transition: background .2s, transform .22s cubic-bezier(.22,1,.36,1), box-shadow .22s;
+  white-space: nowrap; position: relative; overflow: hidden;
+}
+.btn-add::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 32%, oklch(94% .05 82 / .32) 50%, transparent 68%);
+  transform: translateX(-115%); transition: transform .55s;
+}
+.btn-add:hover::before { transform: translateX(115%); }
+.btn-add:hover {
+  background: oklch(80% .18 82);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px oklch(74% .17 82 / .32);
+}
+.btn-add:active { transform: scale(.97) translateY(0); }
+
+/* ─── BEST SELLERS ───────────────────────────────────────── */
+#bestsellers { background: var(--bg); }
+.bs-head {
+  display: flex; justify-content: space-between;
+  align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+}
+.bs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.9rem; }
+
+/* ─── MENU TABS ──────────────────────────────────────────── */
+#menu { background: var(--bg-warm); }
+.menu-head { margin-bottom: 2.5rem; }
+.tabs {
+  display: flex; overflow-x: auto; scrollbar-width: none;
+  border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; gap: 0;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  padding: .7rem 1.4rem; font-size: .78rem; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--muted); cursor: pointer;
+  border: none; border-bottom: 2px solid transparent;
+  background: none; font-family: var(--font-b);
+  transition: color .2s, border-color .2s; white-space: nowrap;
+}
+.tab.on { color: var(--gold); border-bottom-color: var(--gold); }
+.tab:hover { color: var(--fg); }
+.panel { display: none; }
+.panel.on { display: block; }
+.menu-g { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+
+/* ─── GALERIE ────────────────────────────────────────────── */
+#galerie { background: var(--bg); padding: clamp(4rem,8vw,7rem) 0; }
+.gal-inner { padding: 0 clamp(1.5rem,4vw,3rem); }
+.gal-mosaic {
+  display: grid;
+  grid-template-columns: 3fr 2fr 2fr;
+  grid-template-rows: 280px 200px;
+  gap: 1rem; margin-top: 3rem;
+}
+.gal-item {
+  border-radius: var(--rl); overflow: hidden;
+  position: relative; background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+}
+.gal-item:nth-child(1) { grid-row: span 2; }
+.gal-item-bg { position: absolute; inset: 0; }
+.gal-item-lbl {
+  position: relative; z-index: 2;
+  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: oklch(40% .08 70);
+}
+.gi1 .gal-item-bg { background: radial-gradient(ellipse at 40% 55%, oklch(30% .10 60), oklch(10% .012 60) 80%); }
+.gi2 .gal-item-bg { background: radial-gradient(ellipse at 55% 45%, oklch(38% .12 70), oklch(10% .012 60) 80%); }
+.gi3 .gal-item-bg { background: radial-gradient(ellipse at 50% 50%, oklch(34% .09 38), oklch(10% .012 60) 80%); }
+.gi4 .gal-item-bg { background: radial-gradient(ellipse at 50% 50%, oklch(32% .11 145),oklch(10% .012 60) 80%); }
+.gi5 .gal-item-bg { background: radial-gradient(ellipse at 50% 50%, oklch(28% .10 240),oklch(10% .012 60) 80%); }
+
+/* ─── AVIS ───────────────────────────────────────────────── */
+#avis { background: var(--bg-warm); }
+.avis-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;
+}
+.g-badge {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--surface); border: 1px solid var(--border);
+  padding: .85rem 1.4rem; border-radius: var(--r);
+}
+.g-score { font-family: var(--font-d); font-size: 2.2rem; color: var(--gold); line-height: 1; }
+.g-stars { color: var(--gold); font-size: .8rem; margin-bottom: .1rem; }
+.g-ct { font-size: .72rem; color: var(--muted); }
+.avis-scroll {
+  display: flex; gap: 1.1rem; overflow-x: auto;
+  scrollbar-width: none; padding-bottom: .5rem;
+}
+.avis-scroll::-webkit-scrollbar { display: none; }
+.av-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--rl); padding: 1.4rem;
+  min-width: 290px; max-width: 290px; flex-shrink: 0;
+  transition: border-color .3s, transform .3s;
+}
+.av-card:hover { border-color: oklch(74% .17 82 / .28); transform: translateY(-4px); }
+.av-stars { color: var(--gold); font-size: .8rem; margin-bottom: .7rem; }
+.av-txt {
+  font-size: .92rem; line-height: 1.62; color: var(--fg);
+  margin-bottom: 1rem; font-style: italic;
+}
+.av-auth { display: flex; align-items: center; gap: .7rem; }
+.av-av {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--surface2); display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .85rem; color: var(--gold); flex-shrink: 0;
+}
+.av-nm { font-size: .85rem; font-weight: 600; }
+.av-dt { font-size: .72rem; color: var(--muted); }
+
+/* ─── FAQ ────────────────────────────────────────────────── */
+#faq { background: var(--bg); }
+.faq-wrap { max-width: 760px; margin: 3rem auto 0; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-q {
+  width: 100%; background: none; border: none; color: var(--fg);
+  font-family: var(--font-b); font-size: 1rem; font-weight: 500;
+  text-align: left; padding: 1.2rem 0;
+  display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; gap: 1rem; transition: color .2s;
+}
+.faq-q:hover { color: var(--gold); }
+.faq-icon {
+  width: 26px; height: 26px; border: 1.5px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; flex-shrink: 0; transition: transform .3s, border-color .3s, background .3s;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); border-color: var(--gold); background: var(--gold); color: var(--bg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .4s ease; }
+.faq-item.open .faq-a { max-height: 200px; }
+.faq-a p { color: var(--muted); font-size: .93rem; line-height: 1.72; padding-bottom: 1.2rem; }
+
+/* ─── INFOS ──────────────────────────────────────────────── */
+#infos {
+  background: var(--surface);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; padding: 0; overflow: hidden;
+}
+.info-left { padding: clamp(3rem,6vw,5rem) clamp(2rem,4vw,4rem); }
+.info-block { margin-bottom: 2rem; }
+.info-lbl {
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: .4rem;
+}
+.info-val { font-size: 1rem; line-height: 1.72; color: var(--fg); }
+.info-val a { color: var(--fg); text-decoration: none; transition: color .2s; }
+.info-val a:hover { color: var(--gold); }
+.svc-list { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+.svc-tag {
+  background: var(--surface2); border: 1px solid var(--border);
+  padding: .3rem .7rem; border-radius: 100px; font-size: .78rem; color: var(--muted);
+}
+.order-bar {
+  background: var(--gold); padding: 1.4rem 1.8rem; border-radius: var(--rl);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;
+}
+.order-bar-txt { color: var(--bg); font-weight: 700; font-size: .95rem; }
+.order-btns { display: flex; gap: .65rem; flex-wrap: wrap; }
+.o-btn {
+  background: var(--bg); color: var(--fg);
+  padding: .55rem 1.1rem; border-radius: var(--r);
+  font-size: .78rem; font-weight: 700; text-decoration: none; letter-spacing: .04em;
+  transition: background .2s, transform .2s;
+}
+.o-btn:hover { background: var(--surface); transform: translateY(-1px); }
+.info-map { min-height: 100%; position: relative; }
+.info-map iframe { width: 100%; height: 100%; min-height: 480px; border: none; display: block; }
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+footer {
+  background: var(--bg); border-top: 1px solid var(--border);
+  padding: 4.5rem 3rem 2rem;
+}
+.ft-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; margin-bottom: 3rem;
+}
+.ft-brand { font-family: var(--font-d); font-size: 2.4rem; letter-spacing: .04em; text-transform: uppercase; }
+.ft-brand span { color: var(--gold); }
+.ft-tag { color: var(--muted); font-size: .88rem; margin: .4rem 0 1.4rem; }
+.ft-social { display: flex; gap: .65rem; }
+.soc-a {
+  width: 36px; height: 36px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; font-size: .88rem;
+  transition: background .2s, border-color .2s, transform .2s;
+}
+.soc-a:hover { background: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
+.ft-col-h {
+  font-size: .7rem; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; margin-bottom: 1.2rem; color: var(--fg);
+}
+.ft-links { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+.ft-links a { color: var(--muted); text-decoration: none; font-size: .875rem; transition: color .2s; }
+.ft-links a:hover { color: var(--gold); }
+.ft-bot {
+  border-top: 1px solid var(--border); padding-top: 1.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.ft-copy { font-size: .78rem; color: var(--muted); }
+.ft-legal { display: flex; gap: 1.5rem; }
+.ft-legal a { font-size: .78rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+.ft-legal a:hover { color: var(--fg); }
+
+/* ─── GLOBAL HARMONIZATION ───────────────────────────────── */
+
+/* Section titles — sharper italic em in gold */
+.s-title { color: var(--fg); }
+.s-title em { color: var(--gold); font-style: normal; }
+
+/* Eyebrow refinement */
+.eyebrow { color: var(--gold); font-size: .68rem; letter-spacing: .25em; }
+
+/* Engagement cards — gold top accent on hover */
+.eng-card {
+  border-top: 2px solid transparent;
+  transition: background .3s, border-color .3s;
+}
+.eng-card:hover { border-top-color: var(--gold); }
+
+/* Engagement icon — round instead of square (premium feel) */
+.eng-icon { border-radius: 50%; border: 1px solid var(--border); background: transparent; }
+.eng-card:hover .eng-icon { background: var(--gold); border-color: var(--gold); }
+
+/* Stats section — keep gold bg, refine label */
+.stat-l { letter-spacing: .14em; }
+
+/* Ticker — gold separator dots */
+.tick-dot { background: oklch(4% 0.005 60 / .6); }
+
+/* Product cards — update gradient border to match brighter gold */
+.p-card::after {
+  background: linear-gradient(140deg,
+    oklch(77% .20 88 / .75) 0%,
+    oklch(44% .08 80 / .08) 42%,
+    oklch(77% .20 88 / .38) 100%);
+}
+.p-card:hover {
+  box-shadow:
+    0 26px 56px oklch(0% 0 0 / .60),
+    0 8px 22px oklch(0% 0 0 / .35),
+    0 0 0 1px oklch(77% .20 88 / .08);
+}
+
+/* Testimonial cards — slightly more elevated */
+.av-card { background: var(--surface); }
+.av-card:hover { border-color: oklch(77% .20 88 / .32); }
+
+/* Info section — order bar uses new gold */
+.order-bar { background: var(--gold); }
+
+/* Footer logo */
+.ft-brand span { color: var(--gold); }
+
+/* FAQ icon — sharper */
+.faq-icon { border-radius: 4px; }
+.faq-item.open .faq-icon { border-color: var(--gold); background: var(--gold); }
+
+/* Histoire image placeholder — darker + gold accent */
+.hist-img { background: linear-gradient(135deg, oklch(9% .01 58), oklch(12% .012 60)); }
+
+/* htag tokens — slightly darker border */
+.htag { border-color: oklch(22% 0.018 65); }
+
+/* Section bg-warm slightly warmer for contrast */
+#histoire { background: var(--bg-warm); }
+#categories { background: var(--bg-warm); }
+
+/* ─── HALAL BADGE ─────────────────────────────────────────── */
+.halal {
+  display: inline-flex; align-items: center; gap: .35rem;
+  background: var(--green); color: #fff;
+  font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: .28rem .6rem; border-radius: 4px;
+}
+
+/* ─── SCROLL REVEAL ──────────────────────────────────────── */
+.rv { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.rv.in { opacity: 1; transform: none; }
+.rv-l { opacity: 0; transform: translateX(-28px); transition: opacity .7s ease, transform .7s ease; }
+.rv-l.in { opacity: 1; transform: none; }
+.rv-r { opacity: 0; transform: translateX(28px); transition: opacity .7s ease, transform .7s ease; }
+.rv-r.in { opacity: 1; transform: none; }
+.stg > * { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
+.stg.in > *:nth-child(1){ opacity:1;transform:none;transition-delay:.04s }
+.stg.in > *:nth-child(2){ opacity:1;transform:none;transition-delay:.09s }
+.stg.in > *:nth-child(3){ opacity:1;transform:none;transition-delay:.14s }
+.stg.in > *:nth-child(4){ opacity:1;transform:none;transition-delay:.19s }
+.stg.in > *:nth-child(5){ opacity:1;transform:none;transition-delay:.24s }
+.stg.in > *:nth-child(6){ opacity:1;transform:none;transition-delay:.29s }
+.stg.in > *:nth-child(7){ opacity:1;transform:none;transition-delay:.34s }
+.stg.in > *:nth-child(8){ opacity:1;transform:none;transition-delay:.39s }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:1024px){
+  .cat-grid{ grid-template-rows: repeat(2,180px); }
+  .bs-grid{ grid-template-columns:repeat(2,1fr); }
+  .menu-g{ grid-template-columns:repeat(3,1fr); }
+  .stats-g{ grid-template-columns:repeat(2,1fr); }
+  .stat-i:nth-child(2){ border-right:none; }
+  .ft-top{ grid-template-columns:1fr 1fr; }
+}
+@media(max-width:768px){
+  nav{ padding:1rem 1.25rem; }
+  nav.scrolled{ padding:.75rem 1.25rem; }
+  .nav-links{ display:none; }
+  #hero{ grid-template-columns:1fr; padding:7rem 1.5rem 3rem; }
+  .hero-vis{ display:none; }
+  .hero-scroll{ display:none; }
+  .hero-ray,.hero-ray2{ opacity:.5; }
+  .hero-h1{ text-align:center; font-size:clamp(56px,14vw,88px); }
+  .hero-c{ max-width:100%; }
+  .hero-eye,.hero-actions{ justify-content:center; }
+  .hero-meta{ justify-content:center; flex-direction:column; align-items:center; gap:1.2rem; }
+  .hero-meta > div { border-right:none !important; margin-right:0 !important; }
+  .hero-sub{ max-width:100%; text-align:center; }
+  #histoire{ grid-template-columns:1fr; gap:2.5rem; }
+  .hist-sticky{ position:static; }
+  .eng-grid{ grid-template-columns:repeat(2,1fr); }
+  .bs-grid{ grid-template-columns:repeat(2,1fr); gap:1.2rem; }
+  .p-quick{ display:none; }
+  .cat-grid{
+    grid-template-columns:repeat(2,1fr);
+    grid-template-rows:auto;
+  }
+  .cat-card.feat{ grid-column:span 2; aspect-ratio:16/7; }
+  .cat-card{ height:160px; }
+  .menu-g{ grid-template-columns:repeat(2,1fr); }
+  #infos{ grid-template-columns:1fr; }
+  .info-map iframe{ min-height:300px; }
+  .ft-top{ grid-template-columns:1fr; gap:2rem; }
+  .ft-bot{ flex-direction:column; text-align:center; }
+  .gal-mosaic{ grid-template-columns:1fr 1fr; grid-template-rows:auto; }
+  .gal-item:nth-child(1){ grid-row:span 1; height:200px; }
+  .gal-item{ height:160px; }
+  .avis-head{ flex-direction:column; align-items:flex-start; }
+}
+@media(max-width:480px){
+  .eng-grid{ grid-template-columns:1fr; }
+  .cat-grid{ grid-template-columns:repeat(2,1fr); }
+  .menu-g{ grid-template-columns:1fr; }
+  .stats-g{ grid-template-columns:repeat(2,1fr); }
+  .bs-grid{ grid-template-columns:1fr; }
+}
+
+/* ─── B BOWL SHOWCASE ───────────────────────────────────── */
+#bbowl {
+  position: relative;
+  min-height: 480vh;
+  background: var(--bg);
+}
+.bbowl-sticky {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 4rem 3rem 3.5rem;
+  overflow: hidden;
+  gap: 1.1rem;
+}
+.bbowl-bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 44%, oklch(22% .08 52 / .28) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 50% 70%, oklch(5% .006 58 / .9) 0%, transparent 80%);
+}
+.bbowl-noise {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 195px;
+}
+.bbowl-eye {
+  position: relative; z-index: 3;
+  display: flex; align-items: center; gap: .75rem;
+  font-size: .64rem; font-weight: 700; letter-spacing: .28em;
+  text-transform: uppercase; color: var(--gold);
+}
+.bbowl-eye::before { content: ''; display: block; width: 18px; height: 1.5px; background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+
+/* ── Stack des 5 photos ──────────────────────────────── */
+.bb-imgs {
+  position: relative; z-index: 3;
+  width: clamp(340px, 54vw, 640px);
+  aspect-ratio: 16 / 10;
+  flex-shrink: 0;
+  overflow: hidden; /* clip les transforms de normalisation per-image */
+  mix-blend-mode: lighten; /* fond noir des photos → transparent sur site sombre */
+}
+.bb-state {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
+  will-change: opacity;
+}
+/*
+  Normalisation per-image : le bowl doit occuper la même taille et position dans les 5 états.
+  Image 1 (frites seules) : bowl environ 18% plus petit et 5% plus bas dans le cadre
+  que les états 2-5 — corrigé par scale + translateY.
+  Images 2-5 : déjà bien alignées entre elles, pas d'ajustement nécessaire.
+*/
+#bb-s1 { transform: scale(1.18) translateY(-5%); transform-origin: center 52%; }
+/* Images 2-5 cachées par défaut avant initialisation GSAP */
+#bb-s2, #bb-s3, #bb-s4, #bb-s5 { opacity: 0; }
+
+/* ── Label d'étape — "01 FRITES" ──────────────────────── */
+.bb-step-label {
+  position: relative; z-index: 3;
+  display: flex; align-items: baseline; gap: .65rem;
+}
+.bb-sl-n {
+  font-family: var(--font-d); font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  color: var(--gold); line-height: 1; letter-spacing: .04em;
+}
+.bb-sl-t {
+  font-family: var(--font-d); font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  color: var(--fg); line-height: 1;
+  text-transform: uppercase; letter-spacing: .08em;
+}
+
+/* ── CTA toujours visible ─────────────────────────────── */
+.bbowl-cta {
+  position: relative; z-index: 5;
+  display: flex; flex-direction: column;
+  align-items: center; gap: .55rem;
+  margin-top: 1.8rem;
+}
+.bbowl-cta-price { font-size: .88rem; color: var(--muted); }
+.bbowl-cta-price strong { color: var(--fg); }
+
+/* ── Indicateurs droite ───────────────────────────────── */
+.bb-steps {
+  position: absolute; right: 2.5rem; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: .65rem; z-index: 4;
+}
+.bb-step { display: flex; align-items: center; gap: .6rem; opacity: .22; transition: opacity .35s; }
+.bb-step.active { opacity: 1; }
+.bb-sdot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border); flex-shrink: 0;
+  transition: background .35s, transform .35s, box-shadow .35s;
+}
+.bb-step.active .bb-sdot { background: var(--gold); transform: scale(1.55); box-shadow: 0 0 10px oklch(77% .20 88/.55); }
+.bb-slbl { font-size: .58rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); transition: color .35s; white-space: nowrap; }
+.bb-step.active .bb-slbl { color: var(--fg); }
+
+/* ── Track de scroll gauche ───────────────────────────── */
+.bb-scroll-track {
+  position: absolute; left: 2.5rem; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .5rem; z-index: 4;
+}
+.bb-scroll-lbl { font-size: .54rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+.bb-track-outer { width: 2px; height: 80px; background: var(--border); border-radius: 1px; position: relative; overflow: hidden; }
+.bb-track-fill { position: absolute; top: 0; left: 0; right: 0; background: var(--gold); height: 0%; border-radius: 1px; }
+
+@media(max-width:768px) {
+  .bbowl-sticky { padding: 3.5rem 1.5rem 3rem; gap: 1rem; }
+  .bb-steps, .bb-scroll-track { display: none; }
+  .bb-imgs { width: min(88vw, 440px); }
+  #bbowl { min-height: 550vh; }
+}
+@media(max-width:480px) {
+  .bb-imgs { width: 94vw; }
+  .bb-sl-n, .bb-sl-t { font-size: 1.55rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- ─── NAV ─────────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="#" class="nav-logo">B.<span>BURGER</span><sub>Carmaux</sub></a>
+  <ul class="nav-links">
+    <li><a href="#histoire">Histoire</a></li>
+    <li><a href="#categories">Menu</a></li>
+    <li><a href="#bestsellers">Best sellers</a></li>
+    <li><a href="#avis">Avis</a></li>
+    <li><a href="#infos">Infos</a></li>
+  </ul>
+  <a href="tel:0769096954" class="nav-cta">Commander</a>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────── -->
+<section id="hero" data-od-id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-ray"></div>
+  <div class="hero-ray2"></div>
+  <div class="hero-aside">Carmaux · 81400 · Halal · Fast food</div>
+  <div class="hero-c">
+    <p class="hero-eye"></p>
+    <h1 class="hero-h1">
+      Le goût<br>
+      du <em>vrai</em><br>
+      burger.
+    </h1>
+    <p class="hero-sub">Des burgers généreux. Des produits frais. Préparés à la commande, avec passion — depuis Carmaux.</p>
+    <div class="hero-actions">
+      
+      <a href="#menu" class="btn-s">Voir la carte</a>
+    </div>
+    <div class="hero-meta">
+      <div class="hm-item">
+        <img class="hm-logo hm-logo-google"
+             src="mqy94dbw-pngtree-google-internet-icon-vector-png-image_9183287.png"
+             alt="Google" loading="lazy">
+        <div class="hm-body">
+          <span class="hm-stars">★★★★★</span>
+          <span class="h-meta-v">4,6/5</span>
+          <span class="h-meta-l">Note Google</span>
+        </div>
+      </div>
+      <a class="hm-item hm-item-link" href="#info-left"
+         aria-label="Aller aux informations de localisation">
+        <img class="hm-logo"
+             src="mqy9gc74-3d-pin-point-map-gps-3d-rendering-png.webp"
+             alt="Localisation" loading="lazy">
+        <div class="hm-body">
+          <span class="h-meta-v">Carmaux</span>
+          <span class="h-meta-l">81400</span>
+        </div>
+      </a>
+      <div class="hm-item">
+        <img class="hm-logo hm-logo-halal"
+             src="mqy94daz-Halal_logo.svg.png"
+             alt="Halal certifié" loading="lazy">
+        <div class="hm-body">
+          <span class="h-meta-v">Halal</span>
+          <span class="h-meta-l">Certifié</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-vis">
+    <div class="burger-plate">
+      <div class="b-glow"></div>
+      <div class="b-ring"></div>
+      <div class="b-ring"></div>
+      <div class="burger-tower">
+        <div class="b-steam">
+          <div class="b-sw" style="--sd:2.2s;--sdl:0s;height:0"></div>
+          <div class="b-sw" style="--sd:2.8s;--sdl:.7s;height:0"></div>
+          <div class="b-sw" style="--sd:2s;--sdl:1.4s;height:0"></div>
+        </div>
+        <div class="bun-top">
+          <div class="b-shine"></div>
+        </div>
+        <div class="b-lettuce"></div>
+        <div class="b-tomato"></div>
+        <div class="b-cheese"></div>
+        <div class="b-drip-row">
+          <div class="b-drip"></div>
+          <div class="b-drip2"></div>
+        </div>
+        <div class="b-meat"></div>
+        <div class="b-bun-bot"></div>
+      </div>
+      <div class="burger-badge">Best Seller</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <span>Découvrir</span>
+    <div class="hero-scroll-l"></div>
+  </div>
+</section>
+
+<!-- ─── TICKER ────────────────────────────────────────────── -->
+<div class="ticker-w">
+  <div class="ticker-t">
+    <span class="tick-i">Halal certifié<span class="tick-dot"></span></span>
+    <span class="tick-i">Produits frais<span class="tick-dot"></span></span>
+    <span class="tick-i">Burgers généreux<span class="tick-dot"></span></span>
+    
+    
+    
+    <span class="tick-i">Tacos · Kebabs · Paninis<span class="tick-dot"></span></span>
+    <span class="tick-i">Sur place · À emporter · Livraison<span class="tick-dot"></span></span>
+    <span class="tick-i">PRODUITS Halal <span class="tick-dot"></span></span>
+    <span class="tick-i">BURGER  BOWLS  BUCKETS<span class="tick-dot"></span></span>
+    
+    <span class="tick-i">Carmaux 81400<span class="tick-dot"></span></span>
+    
+    
+    <span class="tick-i">Tacos · Kebabs · Paninis<span class="tick-dot"></span></span>
+    <span class="tick-i">Sur place · À emporter · Livraison<span class="tick-dot"></span></span>
+    <span class="tick-i">BURGERS GENEREUX<span class="tick-dot"></span></span>
+    <span class="tick-i">Produits frais<span class="tick-dot"></span></span>
+  </div>
+</div>
+
+<!-- ─── CATÉGORIES ────────────────────────────────────────── -->
+<section id="categories" data-od-id="categories">
+  <div class="cat-head">
+    <p class="eyebrow rv">Notre carte</p>
+    <h2 class="s-title rv">Choisissez<br>votre <em>envie.</em></h2>
+  </div>
+  <div class="cat-grid stg">
+    <a href="#menu" class="cat-card c-burgers feat">
+      <div class="cat-bg"></div>
+      <div class="cat-ov">
+        <div class="cat-emoji">🍔</div>
+        <div class="cat-name">Burgers</div>
+        <div class="cat-sub">9 créations · dès 6€</div>
+      </div>
+    </a>
+    <a href="#menu" class="cat-card c-tacos">
+      <div class="cat-bg"></div>
+      <div class="cat-ov">
+        <div class="cat-emoji">🌮</div>
+        <div class="cat-name">Tacos</div>
+        <div class="cat-sub">Dès 3€</div>
+      </div>
+    </a>
+    <a href="#menu" class="cat-card c-kebabs">
+      <div class="cat-bg"></div>
+      <div class="cat-ov">
+        <div class="cat-emoji">🥙</div>
+        <div class="cat-name">Kebabs</div>
+        <div class="cat-sub">Dès 6€</div>
+      </div>
+    </a>
+    <a href="#menu" class="cat-card c-paninis">
+      <div class="cat-bg"></div>
+      <div class="cat-ov">
+        <div class="cat-emoji">🥪</div>
+        <div class="cat-name">Paninis</div>
+        <div class="cat-sub">Plusieurs recettes</div>
+      </div>
+    </a>
+    <a href="#menu" class="cat-card c-bowls">
+      <div class="cat-bg"></div>
+      <div class="cat-ov">
+        <div class="cat-emoji">🥣</div>
+        <div class="cat-name">B Bowls</div>
+        <div class="cat-sub">4 recettes signature</div>
+      </div>
+    </a>
+    <a href="#menu" class="cat-card c-menus">
+      <div class="cat-bg"></div>
+      <div class="cat-ov">
+        <div class="cat-emoji">🍟</div>
+        <div class="cat-name">Menus</div>
+        <div class="cat-sub">Assiettes &amp; Buckets</div>
+      </div>
+    </a>
+    <a href="#menu" class="cat-card c-desserts">
+      <div class="cat-bg"></div>
+      <div class="cat-ov">
+        <div class="cat-emoji">🍰</div>
+        <div class="cat-name">Desserts</div>
+        <div class="cat-sub">Dès 2,5€</div>
+      </div>
+    </a>
+    <a href="#menu" class="cat-card c-boissons">
+      <div class="cat-bg"></div>
+      <div class="cat-ov">
+        <div class="cat-emoji">🥤</div>
+        <div class="cat-name">Boissons</div>
+        <div class="cat-sub">Dès 2€</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ─── NOTRE HISTOIRE ────────────────────────────────────── -->
+<section id="histoire" data-od-id="histoire">
+  <div class="hist-sticky">
+    <p class="eyebrow rv">Notre histoire</p>
+    <h2 class="s-title rv">La <em>passion</em><br>du burger.</h2>
+    <div class="hist-tags rv">
+      <span class="htag">📍 Carmaux, Tarn</span>
+      
+      
+    </div>
+  </div>
+  <div class="hist-paras">
+    <p class="hist-p rv">Au cœur de Carmaux, dans le Tarn, B.Burger est né d'une passion simple et sincère : offrir aux habitants un vrai burger — généreux, frais, préparé à la commande — sans jamais faire de compromis sur la qualité.</p>
+    <p class="hist-p rv">Chaque jour, notre équipe sélectionne des ingrédients frais pour composer des burgers, tacos, kebabs et paninis qui font la fierté de la maison. Pas de produits préemballés. Pas de chaîne industrielle. Juste du vrai, depuis Carmaux.</p>
+    <p class="hist-p rv">Notre cuisine est intégralement <strong>Halal certifiée</strong>, avec des viandes fraîches et des recettes maison qui font revenir nos clients encore et encore. Parce qu'un bon burger, ça se mérite — et ça se partage.</p>
+    <p class="hist-p rv">Famille, amis, collègues ou solo pressé — B.Burger vous accueille avec le même sourire et la même générosité. C'est ça, l'esprit Carmaux.</p>
+    <div class="hist-img rv">
+      <span class="hist-img-lbl">La cuisine B.Burger</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── NOS ENGAGEMENTS ───────────────────────────────────── -->
+<section id="engagements" data-od-id="engagements">
+  <div class="eng-head">
+    <p class="eyebrow rv">Nos engagements</p>
+    <h2 class="s-title rv">Ce qui nous<br><em>distingue.</em></h2>
+  </div>
+  <div class="eng-grid stg">
+    <div class="eng-card">
+      <div class="eng-icon">🌿</div>
+      <div class="eng-name">Produits frais</div>
+      <p class="eng-desc">Aucun produit surgelé. Chaque ingrédient est sélectionné frais et préparé le jour même.</p>
+    </div>
+    <div class="eng-card">
+      <div class="eng-icon">🥩</div>
+      <div class="eng-name">Viande de qualité</div>
+      <p class="eng-desc">Des steaks hachés fondants, de la volaille tendre, des ingrédients sourcés avec soin chaque matin.</p>
+    </div>
+    <div class="eng-card">
+      <div class="eng-icon">⚡</div>
+      <div class="eng-name">Service rapide</div>
+      <p class="eng-desc">Préparé à la commande, servi sans attente inutile. Votre temps a de la valeur — on le respecte.</p>
+    </div>
+    <div class="eng-card">
+      <div class="eng-icon">☪️</div>
+      <div class="eng-name">100% Halal</div>
+      <p class="eng-desc">Toute notre cuisine est certifiée Halal.</p>
+    </div>
+    <div class="eng-card">
+      <div class="eng-icon">✨</div>
+      <div class="eng-name">Hygiène irréprochable</div>
+      <p class="eng-desc">Espace propre, matériel entretenu, normes respectées à chaque service, sans exception.</p>
+    </div>
+    <div class="eng-card">
+      <div class="eng-icon">🤝</div>
+      <div class="eng-name">Accueil chaleureux</div>
+      <p class="eng-desc">Une équipe souriante qui connaît vos habitudes et vous accueille comme à la maison.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS ─────────────────────────────────────────────── -->
+<section id="stats" data-od-id="stats">
+  <div class="stats-g stg">
+    <div class="stat-i">
+      <span class="stat-v" data-target="4.6">0</span>
+      <span class="stat-l">★ Note Google</span>
+    </div>
+    <div class="stat-i">
+      <span class="stat-v" data-target="300" data-suffix="+">0</span>
+      <span class="stat-l">Avis vérifiés</span>
+    </div>
+    <div class="stat-i">
+      <span class="stat-v">9</span>
+      <span class="stat-l">Catégories au menu</span>
+    </div>
+    <div class="stat-i">
+      <span class="stat-v">100%</span>
+      <span class="stat-l">Halal certifié</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── B BOWL SHOWCASE ───────────────────────────────────── -->
+<section id="bbowl" data-od-id="bbowl">
+
+  <div class="bbowl-sticky" id="bbowl-sticky">
+
+    <div class="bbowl-bg" aria-hidden="true"></div>
+    <div class="bbowl-noise" aria-hidden="true"></div>
+
+    <!-- Left scroll-progress track -->
+    <div class="bb-scroll-track" aria-hidden="true">
+      <div class="bb-track-outer">
+        <div class="bb-track-fill" id="bb-track-fill"></div>
+      </div>
+      <span class="bb-scroll-lbl">Scroll</span>
+    </div>
+
+    <!-- Eyebrow -->
+    <p class="bbowl-eye" style="font-size: 16.24px; gap: 20px; flex-direction: row; justify-content: center; align-items: center;">B Bowl Orientale </p>
+
+    <!-- 5 états du bowl — crossfade piloté par GSAP + scroll -->
+    <div class="bb-imgs" id="bb-imgs">
+      <img class="bb-state" id="bb-s1" src="mqxtdebn-ChatGPT-Image-28-juin-2026_-15_15_21.png" alt="B Bowl — Frites maison">
+      <img class="bb-state" id="bb-s2" src="mqxtdect-ChatGPT-Image-28-juin-2026_-15_15_38-_1_.png" alt="B Bowl — Sauce fromagère">
+      <img class="bb-state" id="bb-s3" src="mqxtdegd-ChatGPT-Image-28-juin-2026_-15_15_39-_2_.png" alt="B Bowl — Merguez halal">
+      <img class="bb-state" id="bb-s4" src="mqxtdehy-ChatGPT-Image-28-juin-2026_-15_15_39-_3_.png" alt="B Bowl — Poivrons sautés">
+      <img class="bb-state" id="bb-s5" src="mqxtdekd-ChatGPT-Image-28-juin-2026_-15_15_39-_4_.png" alt="B Bowl — Mozzarella">
+    </div>
+
+    <!-- Label de l'étape active -->
+    <div class="bb-step-label" id="bb-step-label">
+      <span class="bb-sl-n" id="bb-sl-n">01</span>
+      <span class="bb-sl-t" id="bb-sl-t">Frites</span>
+    </div>
+
+    <!-- CTA — toujours visible -->
+    <div class="bbowl-cta" id="bbowl-cta">
+      <a href="tel:0769096954" class="btn-p">Commander ma B Bowl →</a>
+      <span class="bbowl-cta-price">dès <strong>9,50 €</strong></span>
+    </div>
+
+    <!-- Right step indicators -->
+    <div class="bb-steps" aria-label="Étapes de la B Bowl">
+      <div class="bb-step active" data-step="0"><div class="bb-sdot"></div><span class="bb-slbl">Frites</span></div>
+      <div class="bb-step" data-step="1"><div class="bb-sdot"></div><span class="bb-slbl">Sauce</span></div>
+      <div class="bb-step" data-step="2"><div class="bb-sdot"></div><span class="bb-slbl">Merguez</span></div>
+      <div class="bb-step" data-step="3"><div class="bb-sdot"></div><span class="bb-slbl">Poivrons</span></div>
+      <div class="bb-step" data-step="4"><div class="bb-sdot"></div><span class="bb-slbl">Mozza</span></div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ─── MENU COMPLET ──────────────────────────────────────── -->
+<section id="menu" data-od-id="menu">
+  <div class="menu-head">
+    <p class="eyebrow rv">La carte complète</p>
+    <h2 class="s-title rv">Notre <em>menu.</em></h2>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" onclick="swTab('burgers',this)">🍔 Burgers</button>
+    <button class="tab" onclick="swTab('tacos',this)">🌮 Tacos</button>
+    <button class="tab" onclick="swTab('kebabs',this)">🥙 Kebabs</button>
+    <button class="tab" onclick="swTab('paninis',this)">🥪 Paninis</button>
+    <button class="tab" onclick="swTab('bowls',this)">🥣 B Bowls</button>
+    <button class="tab" onclick="swTab('assiettes',this)">🍽 Assiettes</button>
+    <button class="tab" onclick="swTab('salades',this)">🥗 Salades</button>
+    <button class="tab" onclick="swTab('desserts',this)">🍰 Desserts</button>
+    <button class="tab" onclick="swTab('boissons',this)">🥤 Boissons</button>
+  </div>
+
+  <div class="panel on" id="p-burgers">
+    <div class="menu-g">
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .09 60),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Cheese Burger</h3><p class="p-desc">Steak haché, cheddar, sauce burger, salade, tomate, oignons.</p><div class="p-foot"><span class="p-price"><sup>€</sup>6</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .10 62),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Double Cheese</h3><p class="p-desc">Double steak, double cheddar, sauce maison, oignons, cornichons, brioche grillée.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .11 58),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Giant Burger</h3><p class="p-desc">Le plus généreux — steak XXL, double fromage, sauce spéciale, garnitures fraîches.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .08 42),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bo">Épicé</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Pepper Burger</h3><p class="p-desc">Steak haché, poivrons grillés, sauce poivre, cheddar, salade fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>9</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .09 55),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bn">Nouveau</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Raclette Burger</h3><p class="p-desc">Steak haché, raclette fondue, charcuterie halal, cornichons, moutarde artisanale.</p><div class="p-foot"><span class="p-price"><sup>€</sup>9</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(38% .09 70),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Brie Burger</h3><p class="p-desc">Steak haché, brie fondant, confiture d'oignons, roquette, noix.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .08 48),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tender Burger</h3><p class="p-desc">Filet de poulet croustillant, sauce ranch, cheddar, salade, cornichons.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(35% .10 64),oklch(11% .013 60))">🍔</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Gaunty Burger</h3><p class="p-desc">Double steak, bacon halal, oeuf, fromage fondu, sauce BBQ maison.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-tacos">
+    <div class="menu-g">
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .12 70),oklch(11% .013 60))">🌮</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Simple</h3><p class="p-desc">1 viande, sauce au choix, fromage fondu, galette fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(38% .13 68),oklch(11% .013 60))">🌮</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Double</h3><p class="p-desc">2 viandes, sauce au choix, fromage fondu, garnitures fraîches.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(40% .13 70),oklch(11% .013 60))">🌮</div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Triple</h3><p class="p-desc">3 viandes, sauce au choix, double fromage fondu, galette croustillante.</p><div class="p-foot"><span class="p-price"><sup>€</sup>15</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(42% .14 68),oklch(11% .013 60))">🌮</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Giga</h3><p class="p-desc">6 viandes — pour les plus courageux. Sauce au choix, fromage XXL.</p><div class="p-foot"><span class="p-price"><sup>€</sup>27</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .11 65),oklch(11% .013 60))">🧀</div><div class="p-badges"><span class="badge bn">Nouveau</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Tacos Gratiné</h3><p class="p-desc">Tacos gratiné au four, fromage doré, croustillant à l'extérieur, fondant à l'intérieur.</p><div class="p-foot"><span class="p-price">Sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-kebabs">
+    <div class="menu-g">
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .08 35),oklch(11% .013 60))">🥙</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Kebab Seul</h3><p class="p-desc">Viande de veau rôtie, sauce maison, salade, tomate, oignons, galette fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>6</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .09 38),oklch(11% .013 60))">🥙</div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Kebab + Frites</h3><p class="p-desc">Kebab maison accompagné de frites croustillantes fraîchement préparées.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .10 40),oklch(11% .013 60))">🥙</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Kebab Menu Complet</h3><p class="p-desc">Kebab + Frites + Boisson 33cl. Le repas complet idéal.</p><div class="p-foot"><span class="p-price"><sup>€</sup>8</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .08 33),oklch(11% .013 60))">🫓</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Galette Kebab</h3><p class="p-desc">Galette dorée farcie de viande rôtie, sauce et légumes frais.</p><div class="p-foot"><span class="p-price"><sup>€</sup>6<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(28% .07 35),oklch(11% .013 60))">🥩</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Barquette de Viande</h3><p class="p-desc">Viande rôtie en barquette, sauce au choix, accompagnement inclus.</p><div class="p-foot"><span class="p-price"><sup>€</sup>4</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-paninis">
+    <div class="menu-g">
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .09 50),oklch(11% .013 60))">🥪</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Panini Kebab</h3><p class="p-desc">Pain ciabatta grillé, viande rôtie, sauce maison, fromage fondu.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .08 45),oklch(11% .013 60))">🥪</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Panini Steak</h3><p class="p-desc">Pain grillé, steak émincé, emmental fondu, sauce poivre ou mayo.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .09 48),oklch(11% .013 60))">🥪</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Panini Chicken</h3><p class="p-desc">Escalope de poulet grillée, sauce ranch, cheddar, tomate, roquette.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(38% .12 40),oklch(11% .013 60))">🍫</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Panini Nutella</h3><p class="p-desc">Pain brioché toasté, Nutella généreux. La douceur de la maison.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-bowls">
+    <div class="menu-g">
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .10 145),oklch(11% .013 60))">🥣</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl Savoyarde</h3><p class="p-desc">Viande, raclette fondue, pommes de terre, oignons caramélisés, herbes.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .11 148),oklch(11% .013 60))">🥣</div><div class="p-badges"><span class="badge bn">Nouveau</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl Chèvre-Miel</h3><p class="p-desc">Roquette, chèvre frais, miel, noix, tomates cerises, viande grillée.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .12 143),oklch(11% .013 60))">🥣</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl Oriental</h3><p class="p-desc">Couscous, pois chiches, légumes grillés, harissa douce, viande épicée.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .13 145),oklch(11% .013 60))">🥣</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">B-Bowl à Composer</h3><p class="p-desc">Votre bowl sur mesure — choisissez base, protéine, garnitures et sauce.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-assiettes">
+    <div class="menu-g">
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .10 72),oklch(11% .013 60))">🍽</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Assiette 1 Viande</h3><p class="p-desc">1 viande au choix, frites maison, sauce au choix. Simple et généreux.</p><div class="p-foot"><span class="p-price"><sup>€</sup>9</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .11 70),oklch(11% .013 60))">🍽</div><div class="p-badges"><span class="badge bg">Populaire</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Assiette 2 Viandes</h3><p class="p-desc">2 viandes au choix, frites maison, sauce au choix. Pour les bons appétits.</p><div class="p-foot"><span class="p-price"><sup>€</sup>11</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .12 68),oklch(11% .013 60))">🍽</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Assiette 3 Viandes</h3><p class="p-desc">3 viandes au choix, frites maison, sauce au choix. Le festin complet.</p><div class="p-foot"><span class="p-price"><sup>€</sup>16</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .11 75),oklch(11% .013 60))">🪣</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Royal Bucket</h3><p class="p-desc">4 viandes + accompagnements au choix. Pour partager entre amis ou en famille.</p><div class="p-foot"><span class="p-price"><sup>€</sup>35</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-salades">
+    <div class="menu-g">
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .14 140),oklch(11% .013 60))">🥗</div><div class="p-badges"><span class="badge bv">Végétarien</span></div></div><div class="p-body"><h3 class="p-name">Salade Veggie</h3><p class="p-desc">Mélange de jeunes pousses, tomates cerises, concombre, avocat, vinaigrette maison.</p><div class="p-foot"><span class="p-price"><sup>€</sup>5</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .12 142),oklch(11% .013 60))">🥗</div><div class="p-badges"><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Salade Tender</h3><p class="p-desc">Tenders de poulet croustillants sur lit de salade, sauce ranch, parmesan, croûtons.</p><div class="p-foot"><span class="p-price">Prix sur place</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .14 143),oklch(11% .013 60))">🥗</div><div class="p-badges"><span class="badge bg">Best Seller</span><span class="badge bv">Halal</span></div></div><div class="p-body"><h3 class="p-name">Salade Pop's</h3><p class="p-desc">Poulet popcorn croustillant, salade iceberg, maïs, tomates, sauce BBQ-mayo.</p><div class="p-foot"><span class="p-price"><sup>€</sup>7</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-desserts">
+    <div class="menu-g">
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .12 35),oklch(11% .013 60))">🥤</div><div class="p-badges"><span class="badge bg">Best Seller</span></div></div><div class="p-body"><h3 class="p-name">Milkshake</h3><p class="p-desc">Nutella, Oreo ou Kinder Bueno. Épais, crémeux, irrésistible.</p><div class="p-foot"><span class="p-price"><sup>€</sup>4</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(36% .13 30),oklch(11% .013 60))">🍓</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Smoothie Frais</h3><p class="p-desc">Fraise, Fruits rouges, Banane ou Mangue. 100% fruits, sans sucre ajouté.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(34% .11 38),oklch(11% .013 60))">🍩</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Donut</h3><p class="p-desc">Donut moelleux du jour, glacé à la vanille ou au chocolat.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(32% .10 32),oklch(11% .013 60))">🍮</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Tarte Daim</h3><p class="p-desc">Tarte croustillante au caramel et éclats de Daim. La surprise sucrée.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(30% .09 30),oklch(11% .013 60))">☕</div><div class="p-badges"><span class="badge bn">Maison</span></div></div><div class="p-body"><h3 class="p-name">Tiramisu</h3><p class="p-desc">Tiramisu maison, mascarpone, café, cacao. La douceur italienne.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2<sup style="font-size:.6rem">,8</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(28% .10 28),oklch(11% .013 60))">🧇</div><div class="p-badges"><span class="badge bg">Favori</span></div></div><div class="p-body"><h3 class="p-name">Gaufre Chocolat</h3><p class="p-desc">Gaufre croustillante, Nutella, crème fouettée maison. Le péché mignon.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-boissons">
+    <div class="menu-g">
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(28% .10 240),oklch(11% .013 60))">🥤</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Boisson 33 cl</h3><p class="p-desc">Coca-Cola, Fanta, Sprite, Oasis... au choix, bien fraîche.</p><div class="p-foot"><span class="p-price"><sup>€</sup>2</span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+      <div class="p-card"><div class="p-img"><div class="p-img-bg" style="background:radial-gradient(ellipse at 50% 40%,oklch(26% .09 235),oklch(11% .013 60))">🍶</div><div class="p-badges"></div></div><div class="p-body"><h3 class="p-name">Bouteille 1,5 L</h3><p class="p-desc">Eau plate, eau pétillante ou soda bouteille familiale.</p><div class="p-foot"><span class="p-price"><sup>€</sup>3<sup style="font-size:.6rem">,5</sup></span><button class="btn-add" onclick="orderClick()">Commander</button></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GALERIE ────────────────────────────────────────────── -->
+<section id="galerie" data-od-id="galerie">
+  <div class="gal-inner">
+    <p class="eyebrow rv">Galerie</p>
+    <h2 class="s-title rv">La <em>générosité</em><br>dans chaque assiette.</h2>
+    <div class="gal-mosaic stg">
+      <div class="gal-item gi1"><div class="gal-item-bg"></div><span class="gal-item-lbl">Burger XXL</span></div>
+      <div class="gal-item gi2"><div class="gal-item-bg"></div><span class="gal-item-lbl">Tacos gratiné</span></div>
+      <div class="gal-item gi3"><div class="gal-item-bg"></div><span class="gal-item-lbl">Kebab maison</span></div>
+      <div class="gal-item gi4"><div class="gal-item-bg"></div><span class="gal-item-lbl">B-Bowl du jour</span></div>
+      <div class="gal-item gi5"><div class="gal-item-bg"></div><span class="gal-item-lbl">Milkshake</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AVIS ──────────────────────────────────────────────── -->
+<section id="avis" data-od-id="avis">
+  <div class="avis-head">
+    <div>
+      <p class="eyebrow rv">Avis Google</p>
+      <h2 class="s-title rv">Ce que disent<br>nos <em>clients.</em></h2>
+    </div>
+    <div class="g-badge rv">
+      <div>
+        <div class="g-score">4,6</div>
+        <div class="g-stars">★★★★★</div>
+        <div class="g-ct">300+ avis Google</div>
+      </div>
+    </div>
+  </div>
+  <div class="avis-scroll">
+    <div class="av-card">
+      <div class="av-stars">★★★★★</div>
+      <p class="av-txt">"Les burgers sont vraiment excellents — généreux, chauds, avec des ingrédients frais. On sent que c'est fait avec soin. Je reviens à chaque fois !"</p>
+      <div class="av-auth"><div class="av-av">M</div><div><div class="av-nm">Mehdi R.</div><div class="av-dt">Il y a 2 semaines</div></div></div>
+    </div>
+    <div class="av-card">
+      <div class="av-stars">★★★★★</div>
+      <p class="av-txt">"Service ultra rapide, personnel souriant et accueillant. Le tacos triple est une tuerie. Rapport qualité-prix imbattable à Carmaux."</p>
+      <div class="av-auth"><div class="av-av">S</div><div><div class="av-nm">Sarah L.</div><div class="av-dt">Il y a 1 mois</div></div></div>
+    </div>
+    <div class="av-card">
+      <div class="av-stars">★★★★★</div>
+      <p class="av-txt">"Halal certifié, produits frais, portions généreuses. On y va en famille tous les samedis. Les enfants adorent les milkshakes !"</p>
+      <div class="av-auth"><div class="av-av">K</div><div><div class="av-nm">Karim B.</div><div class="av-dt">Il y a 3 semaines</div></div></div>
+    </div>
+    <div class="av-card">
+      <div class="av-stars">★★★★★</div>
+      <p class="av-txt">"Le Double Cheese est simplement parfait. Fromage bien fondu, viande juteuse, sauce maison. Meilleur burger de la région sans hésiter."</p>
+      <div class="av-auth"><div class="av-av">A</div><div><div class="av-nm">Antoine D.</div><div class="av-dt">Il y a 5 jours</div></div></div>
+    </div>
+    <div class="av-card">
+      <div class="av-stars">★★★★☆</div>
+      <p class="av-txt">"Très bonne adresse à Carmaux. Les B-Bowls sont délicieux et originaux. Un peu d'attente le vendredi soir mais ça vaut largement le coup."</p>
+      <div class="av-auth"><div class="av-av">L</div><div><div class="av-nm">Lucie M.</div><div class="av-dt">Il y a 2 mois</div></div></div>
+    </div>
+    <div class="av-card">
+      <div class="av-stars">★★★★★</div>
+      <p class="av-txt">"Personnel accueillant, ambiance sympa, nourriture vraiment généreuse. Le kebab maison est authentique. On se sent comme à la maison."</p>
+      <div class="av-auth"><div class="av-av">Y</div><div><div class="av-nm">Youssef A.</div><div class="av-dt">Il y a 1 semaine</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ───────────────────────────────────────────────── -->
+<section id="faq" data-od-id="faq">
+  <div style="max-width:760px;">
+    <p class="eyebrow rv">FAQ</p>
+    <h2 class="s-title rv">Questions<br><em>fréquentes.</em></h2>
+  </div>
+  <div class="faq-wrap">
+    <div class="faq-item">
+      <button class="faq-q" onclick="togFaq(this)">Est-ce que B.Burger est Halal ?<span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>Oui, intégralement. Toute notre cuisine — viandes, ingrédients et préparations — est certifiée Halal. Vous pouvez commander en toute confiance.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="togFaq(this)">Proposez-vous la livraison ?<span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>Oui ! Nous livrons via Uber Eats. Vous pouvez aussi commander par téléphone pour un retrait sur place ou consommer directement au restaurant.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="togFaq(this)">Quels sont vos horaires ?<span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>Nous sommes ouverts du lundi au dimanche. Contactez-nous au 07 69 09 69 54 pour les horaires exacts et les jours de fermeture exceptionnelle.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="togFaq(this)">Acceptez-vous les tickets restaurant ?<span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>Oui, nous acceptons les tickets restaurant ainsi que les cartes bancaires. Le parking est également disponible à proximité.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="togFaq(this)">Avez-vous une option végétarienne ?<span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>Oui — notre Salade Veggie et notre B-Bowl Chèvre-Miel sont des options végétariennes savoureuses. N'hésitez pas à demander conseil à notre équipe.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── INFOS + CARTE ─────────────────────────────────────── -->
+<section id="infos" data-od-id="infos">
+  <div class="info-left" id="info-left">
+    <p class="eyebrow">Nous trouver</p>
+    <h2 class="s-title" style="font-size:clamp(36px,5vw,72px);margin-bottom:2rem">Venez<br><em>nous voir.</em></h2>
+
+    <div class="info-block">
+      <div class="info-lbl">Adresse</div>
+      <div class="info-val">30 Avenue de Rodez<br>81400 Carmaux</div>
+    </div>
+    <div class="info-block">
+      <div class="info-lbl">Téléphone</div>
+      <div class="info-val"><a href="tel:0769096954">07 69 09 69 54</a></div>
+    </div>
+    <div class="info-block">
+      <div class="info-lbl">Services disponibles</div>
+      <div class="svc-list">
+        <span class="svc-tag">Sur place</span>
+        <span class="svc-tag">À emporter</span>
+        <span class="svc-tag">Livraison</span>
+        <span class="svc-tag">Uber Eats</span>
+        <span class="svc-tag">Terrasse</span>
+        <span class="svc-tag">Parking</span>
+        <span class="svc-tag">CB acceptée</span>
+        <span class="svc-tag">Ticket Restaurant</span>
+        <span class="svc-tag">Accès PMR</span>
+      </div>
+    </div>
+    <div class="order-bar">
+      <div class="order-bar-txt">Commander maintenant</div>
+      <div class="order-btns">
+        <a href="tel:0769096954" class="o-btn">📞 Appeler</a>
+        <a href="https://www.ubereats.com" class="o-btn" target="_blank" rel="noopener">Uber Eats</a>
+      </div>
+    </div>
+  </div>
+  <div class="info-map">
+    <iframe src="https://maps.google.com/maps?q=30+Avenue+de+Rodez+81400+Carmaux&amp;output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="B.Burger Carmaux sur Google Maps">
+    </iframe>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────────── -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-brand">B.<span>BURGER</span></div>
+      <p class="ft-tag">Le goût du vrai burger. Depuis Carmaux.</p>
+      <div class="ft-social">
+        <a href="#" class="soc-a" aria-label="Facebook">f</a>
+        <a href="#" class="soc-a" aria-label="Instagram">ig</a>
+        <a href="#" class="soc-a" aria-label="TikTok">tt</a>
+      </div>
+    </div>
+    <div>
+      <div class="ft-col-h">Menu</div>
+      <ul class="ft-links">
+        <li><a href="#menu">Burgers</a></li>
+        <li><a href="#menu">Tacos</a></li>
+        <li><a href="#menu">Kebabs</a></li>
+        <li><a href="#menu">B Bowls</a></li>
+        <li><a href="#menu">Desserts</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-h">Infos pratiques</div>
+      <ul class="ft-links">
+        <li><a href="#infos">Avis</a></li>
+        <li></li>
+        <li><a href="#infos">Services</a></li>
+        <li></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-h">Adresse</div>
+      <p style="color:var(--muted);font-size:.88rem;line-height:1.7">
+        30 Avenue de Rodez<br>
+        81400 Carmaux<br><br>
+        <a href="tel:0769096954" style="color:var(--gold);text-decoration:none">07 69 09 69 54</a>
+      </p>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p class="ft-copy">© 2025 B.Burger Carmaux. Tous droits réservés.</p>
+    <div class="ft-legal">
+      <a href="#">Mentions légales</a>
+      <a href="#">Politique de confidentialité</a>
+      <a href="#">CGU</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── GSAP + ScrollTrigger ──────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<!-- ─── JAVASCRIPT ────────────────────────────────────────── -->
+<script>
+/* --- Custom cursor --- */
+const cur = document.getElementById('cur');
+const curR = document.getElementById('cur-r');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
+(function trackRing(){ rx += (mx-rx)*.12; ry += (my-ry)*.12; curR.style.left = rx+'px'; curR.style.top = ry+'px'; requestAnimationFrame(trackRing); })();
+
+/* --- Nav scroll --- */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, {passive:true});
+
+/* --- Menu tabs --- */
+function swTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+
+/* --- FAQ accordion --- */
+function togFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+/* --- Order CTA --- */
+function orderClick() {
+  window.location.href = 'tel:0769096954';
+}
+
+/* --- Scroll reveal via IntersectionObserver --- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el => io.observe(el));
+
+/* Stagger groups */
+const ioStg = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      ioStg.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.stg').forEach(el => ioStg.observe(el));
+
+/* --- Animated stat counters --- */
+const ioStat = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    if (!target) return;
+    const isFloat = !Number.isInteger(target);
+    const dur = 1200, steps = 60, step = dur/steps;
+    let i = 0;
+    const t = setInterval(() => {
+      i++;
+      const val = target * (i/steps);
+      el.textContent = isFloat ? val.toFixed(1)+suffix : Math.round(val)+suffix;
+      if (i >= steps) { el.textContent = (isFloat ? target.toFixed(1) : target)+suffix; clearInterval(t); }
+    }, step);
+    ioStat.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-v[data-target]').forEach(el => ioStat.observe(el));
+
+/* --- Histoire paragraphs lit on scroll --- */
+const paras = document.querySelectorAll('.hist-p');
+const ioPara = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    e.target.classList.toggle('lit', e.isIntersecting);
+  });
+}, { threshold: 0.6 });
+paras.forEach(p => ioPara.observe(p));
+
+/* --- Parallax hero (bg + burger at different rates) --- */
+const heroBg = document.querySelector('.hero-bg');
+const heroVis = document.querySelector('.hero-vis');
+const heroNoise = document.querySelector('.hero-noise');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const vh = window.innerHeight;
+  if (y > vh) return;
+  if (heroBg)   heroBg.style.transform   = `translateY(${y * 0.28}px)`;
+  if (heroNoise) heroNoise.style.transform = `translateY(${y * 0.28}px)`;
+  if (heroVis)  heroVis.style.transform   = `translateY(${y * 0.12}px)`;
+}, { passive: true });
+
+/* --- Hero floating particles --- */
+(function initParticles() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  const container = document.createElement('div');
+  container.style.cssText = 'position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2';
+  hero.appendChild(container);
+
+  function spawnPt() {
+    const pt = document.createElement('div');
+    pt.className = 'hero-pt';
+    const x   = 42 + Math.random() * 45;
+    const y   = 25 + Math.random() * 45;
+    const dx  = (Math.random() - 0.5) * 50;
+    const dur = 3.5 + Math.random() * 4;
+    const dl  = Math.random() * 3;
+    const sz  = 1.5 + Math.random() * 2.5;
+    const isOrange = Math.random() < .25;
+    pt.style.cssText = `
+      left:${x}%;bottom:${y}%;
+      width:${sz}px;height:${sz}px;
+      --pt-dx:${dx}px;--pt-dur:${dur}s;--pt-dl:${dl}s;
+      background:${isOrange ? 'oklch(64% .19 38 / .7)' : 'oklch(74% .17 82 / .6)'};
+      animation-delay:${dl}s;
+    `;
+    container.appendChild(pt);
+    setTimeout(() => pt.remove(), (dur + dl + 0.5) * 1000);
+  }
+
+  /* seed initial batch */
+  for (let i = 0; i < 10; i++) setTimeout(spawnPt, i * 220);
+  setInterval(spawnPt, 550);
+})();
+
+/* --- Hero H1 word-by-word entrance --- */
+(function heroEntrance() {
+  const h1 = document.querySelector('.hero-h1');
+  if (!h1) return;
+  const sub  = document.querySelector('.hero-sub');
+  const acts = document.querySelector('.hero-actions');
+  const meta = document.querySelector('.hero-meta');
+  const eye  = document.querySelector('.hero-eye');
+  [eye, h1, sub, acts, meta].forEach((el, i) => {
+    if (!el) return;
+    el.style.cssText = `opacity:0;transform:translateY(22px);transition:opacity .7s ${i * .13}s cubic-bezier(.22,1,.36,1),transform .7s ${i * .13}s cubic-bezier(.22,1,.36,1)`;
+  });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    [eye, h1, sub, acts, meta].forEach(el => {
+      if (!el) return;
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    });
+  }));
+})();
+
+/* ── B Bowl — 5 états, crossfade au scroll ──────────────── */
+(function initBBowl() {
+  if (!document.getElementById('bbowl')) return;
+
+  var LABELS = [
+    { n: '01', t: 'Frites' },
+    { n: '02', t: 'Sauce fromagère' },
+    { n: '03', t: 'Merguez' },
+    { n: '04', t: 'Poivrons' },
+    { n: '05', t: 'Mozzarella' }
+  ];
+
+  var slN     = document.getElementById('bb-sl-n');
+  var slT     = document.getElementById('bb-sl-t');
+  var stepEls = document.querySelectorAll('.bb-step');
+  var fillEl  = document.getElementById('bb-track-fill');
+  var lastStep = -1;
+  var labelTl  = null;
+
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    /* Fallback : image finale visible */
+    ['#bb-s1','#bb-s2','#bb-s3','#bb-s4'].forEach(function(id) {
+      var el = document.querySelector(id);
+      if (el) el.style.opacity = '0';
+    });
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── État initial : image 1 visible, 2-5 invisibles ── */
+  gsap.set('#bb-s1', { opacity: 1 });
+  gsap.set(['#bb-s2','#bb-s3','#bb-s4','#bb-s5'], { opacity: 0 });
+
+  /*
+    Timeline normalisée à exactement 1.0 unité (mapping 1:1 avec le progress ScrollTrigger).
+    5 états égaux : chaque changement d'état se produit à exactement 20%/40%/60%/80% du scroll.
+    Crossfade de 5% centré à chaque palier — assez court pour que l'ingrédient
+    « apparaisse » sans que le bowl ne semble remplacé.
+    Avec scrub:1, l'animation est lissée et entièrement réversible.
+  */
+  var D   = 0.05; /* 5% du scroll par transition ≈ 24 vh */
+  var tl  = gsap.timeline({ paused: true });
+
+  /* Chaque paire : fade-out de l'état actuel + fade-in du suivant en simultané */
+  tl.to('#bb-s1', { opacity: 0, ease: 'power1.inOut', duration: D }, 0.20 - D / 2);
+  tl.to('#bb-s2', { opacity: 1, ease: 'power1.inOut', duration: D }, 0.20 - D / 2);
+
+  tl.to('#bb-s2', { opacity: 0, ease: 'power1.inOut', duration: D }, 0.40 - D / 2);
+  tl.to('#bb-s3', { opacity: 1, ease: 'power1.inOut', duration: D }, 0.40 - D / 2);
+
+  tl.to('#bb-s3', { opacity: 0, ease: 'power1.inOut', duration: D }, 0.60 - D / 2);
+  tl.to('#bb-s4', { opacity: 1, ease: 'power1.inOut', duration: D }, 0.60 - D / 2);
+
+  tl.to('#bb-s4', { opacity: 0, ease: 'power1.inOut', duration: D }, 0.80 - D / 2);
+  tl.to('#bb-s5', { opacity: 1, ease: 'power1.inOut', duration: D }, 0.80 - D / 2);
+
+  /* Ancre à t=0.999 pour forcer tl.totalDuration()≈1.0 → le mapping reste 1:1 */
+  tl.set('#bb-s5', { opacity: 1 }, 0.999);
+
+  ScrollTrigger.create({
+    trigger: '#bbowl',
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: 1,
+    animation: tl,
+    onUpdate: function(self) {
+      var p = self.progress;
+      if (fillEl) fillEl.style.height = (p * 100) + '%';
+      /*
+        Le label change au début de chaque crossfade (t = 0.175, 0.375, 0.575, 0.775)
+        → chaque état affiché ≈ 20% du scroll, distribution parfaitement uniforme.
+      */
+      var step = p < 0.175 ? 0 : p < 0.375 ? 1 : p < 0.575 ? 2 : p < 0.775 ? 3 : 4;
+      setStep(step);
+    }
+  });
+
+  function setStep(step) {
+    if (step === lastStep) return;
+    lastStep = step;
+
+    stepEls.forEach(function(el, i) {
+      el.classList.toggle('active', i === step);
+    });
+
+    if (labelTl) labelTl.kill();
+    labelTl = gsap.timeline()
+      .to('#bb-step-label', { opacity: 0, y: 5, duration: .12, ease: 'power1.in' })
+      .call(function() {
+        slN.textContent = LABELS[step].n;
+        slT.textContent = LABELS[step].t;
+      })
+      .to('#bb-step-label', { opacity: 1, y: 0, duration: .22, ease: 'power2.out' });
+  }
+
+})();
+</script>
+
+
+</body></html>
