@@ -631,10 +631,10 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
 .cat-sub { font-size: .72rem; color: var(--gold); letter-spacing: .08em; margin-top: .15rem; }
 
 /* Category image backgrounds */
-.c-burgers .cat-bg  { background: url('images/gallery-burger-xxl.jpg') center/cover no-repeat; }
-.c-tacos .cat-bg    { background: url('images/gallery-tacos-gratine.jpg') center/cover no-repeat; }
-.c-kebabs .cat-bg   { background: url('images/gallery-kebab.jpg') center/cover no-repeat; }
-.c-paninis .cat-bg  { background: url('images/gallery-tacos-gratine.jpg') center/cover no-repeat; }
+.c-burgers .cat-bg  { background: url('images/products/burgers/double-cheese-burger.png') center/cover no-repeat; }
+.c-tacos .cat-bg    { background: url('images/products/tacos/tacos-gratine.png') center/cover no-repeat; }
+.c-kebabs .cat-bg   { background: url('images/products/kebabs/kebab-maison.png') center/cover no-repeat; }
+.c-paninis .cat-bg  { background: url('images/products/paninis/panini-steak.png') center/cover no-repeat; }
 .c-bowls .cat-bg    { background: url('images/bbowl-mozzarella.jpg') center/cover no-repeat; }
 .c-menus .cat-bg    { background: url('images/bbowl-fries.jpg') center/cover no-repeat; }
 .c-desserts .cat-bg { background: url('images/gallery-milkshake.jpg') center/cover no-repeat; }
@@ -785,10 +785,24 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
 .p-card:hover .p-price { color: oklch(82% .18 82); }
 .p-price sup { font-size: .8rem; vertical-align: super; line-height: 0; }
 
-#p-burgers .p-img-bg { background-image: url('images/gallery-burger-xxl.jpg') !important; }
-#p-tacos .p-img-bg { background-image: url('images/gallery-tacos-gratine.jpg') !important; }
-#p-kebabs .p-img-bg { background-image: url('images/gallery-kebab.jpg') !important; }
-#p-paninis .p-img-bg { background-image: url('images/gallery-tacos-gratine.jpg') !important; }
+#p-burgers .p-card:nth-child(1) .p-img-bg { background-image: url('images/products/burgers/cheese-burger.png') !important; }
+#p-burgers .p-card:nth-child(2) .p-img-bg,
+#p-burgers .p-card:nth-child(3) .p-img-bg,
+#p-burgers .p-card:nth-child(5) .p-img-bg,
+#p-burgers .p-card:nth-child(8) .p-img-bg { background-image: url('images/products/burgers/double-cheese-burger.png') !important; }
+#p-burgers .p-card:nth-child(4) .p-img-bg,
+#p-burgers .p-card:nth-child(6) .p-img-bg { background-image: url('images/products/burgers/cheese-burger.png') !important; }
+#p-burgers .p-card:nth-child(7) .p-img-bg { background-image: url('images/products/burgers/chicken-burger.png') !important; }
+#p-tacos .p-card:nth-child(1) .p-img-bg { background-image: url('images/products/tacos/tacos-chicken-fries.png') !important; }
+#p-tacos .p-card:nth-child(2) .p-img-bg { background-image: url('images/products/tacos/tacos-mixte.png') !important; }
+#p-tacos .p-card:nth-child(3) .p-img-bg { background-image: url('images/products/tacos/tacos-kebab.png') !important; }
+#p-tacos .p-card:nth-child(4) .p-img-bg { background-image: url('images/products/tacos/tacos-mixte.png') !important; }
+#p-tacos .p-card:nth-child(5) .p-img-bg { background-image: url('images/products/tacos/tacos-gratine.png') !important; }
+#p-kebabs .p-img-bg { background-image: url('images/products/kebabs/kebab-maison.png') !important; }
+#p-paninis .p-card:nth-child(1) .p-img-bg,
+#p-paninis .p-card:nth-child(2) .p-img-bg { background-image: url('images/products/paninis/panini-steak.png') !important; }
+#p-paninis .p-card:nth-child(3) .p-img-bg,
+#p-paninis .p-card:nth-child(4) .p-img-bg { background-image: url('images/products/paninis/panini-chicken.png') !important; }
 #p-bowls .p-img-bg { background-image: url('images/bbowl-mozzarella.jpg') !important; }
 #p-assiettes .p-img-bg { background-image: url('images/bbowl-fries.jpg') !important; }
 #p-salades .p-img-bg { background-image: url('images/kitchen-bburger.jpg') !important; }
@@ -1747,9 +1761,9 @@ footer {
     <p class="eyebrow rv">Galerie</p>
     <h2 class="s-title rv">La <em>générosité</em><br>dans chaque assiette.</h2>
     <div class="gal-mosaic stg">
-      <div class="gal-item gi1"><img class="gal-item-img" src="images/gallery-burger-xxl.jpg" alt="Burger XXL B.Burger" loading="lazy" decoding="async"><span class="gal-item-lbl">Burger XXL</span></div>
-      <div class="gal-item gi2"><img class="gal-item-img" src="images/gallery-tacos-gratine.jpg" alt="Tacos gratiné halal" loading="lazy" decoding="async"><span class="gal-item-lbl">Tacos gratiné</span></div>
-      <div class="gal-item gi3"><img class="gal-item-img" src="images/gallery-kebab.jpg" alt="Kebab maison" loading="lazy" decoding="async"><span class="gal-item-lbl">Kebab maison</span></div>
+      <div class="gal-item gi1"><img class="gal-item-img" src="images/products/burgers/double-cheese-burger.png" alt="Burger XXL B.Burger" loading="lazy" decoding="async"><span class="gal-item-lbl">Burger XXL</span></div>
+      <div class="gal-item gi2"><img class="gal-item-img" src="images/products/tacos/tacos-gratine.png" alt="Tacos gratiné halal" loading="lazy" decoding="async"><span class="gal-item-lbl">Tacos gratiné</span></div>
+      <div class="gal-item gi3"><img class="gal-item-img" src="images/products/kebabs/kebab-maison.png" alt="Kebab maison" loading="lazy" decoding="async"><span class="gal-item-lbl">Kebab maison</span></div>
       <div class="gal-item gi4"><img class="gal-item-img" src="images/bbowl-mozzarella.jpg" alt="B Bowl généreuse" loading="lazy" decoding="async"><span class="gal-item-lbl">B-Bowl du jour</span></div>
       <div class="gal-item gi5"><img class="gal-item-img" src="images/gallery-milkshake.jpg" alt="Milkshake gourmand" loading="lazy" decoding="async"><span class="gal-item-lbl">Milkshake</span></div>
     </div>
@@ -1946,11 +1960,31 @@ const IMAGE_ASSETS = {
   bbowlMerguez: 'images/bbowl-merguez.jpg',
   bbowlPeppers: 'images/bbowl-peppers.jpg',
   bbowlMozzarella: 'images/bbowl-mozzarella.jpg',
-  galleryBurgerXxl: 'images/gallery-burger-xxl.jpg',
-  galleryTacosGratine: 'images/gallery-tacos-gratine.jpg',
-  galleryKebab: 'images/gallery-kebab.jpg',
+  galleryBurgerXxl: 'images/products/burgers/double-cheese-burger.png',
+  galleryTacosGratine: 'images/products/tacos/tacos-gratine.png',
+  galleryKebab: 'images/products/kebabs/kebab-maison.png',
   galleryBbowl: 'images/bbowl-mozzarella.jpg',
-  galleryMilkshake: 'images/gallery-milkshake.jpg'
+  galleryMilkshake: 'images/gallery-milkshake.jpg',
+  products: {
+    burgers: {
+      cheese: 'images/products/burgers/cheese-burger.png',
+      chicken: 'images/products/burgers/chicken-burger.png',
+      doubleCheese: 'images/products/burgers/double-cheese-burger.png'
+    },
+    tacos: {
+      chickenFries: 'images/products/tacos/tacos-chicken-fries.png',
+      mixte: 'images/products/tacos/tacos-mixte.png',
+      gratine: 'images/products/tacos/tacos-gratine.png',
+      kebab: 'images/products/tacos/tacos-kebab.png'
+    },
+    kebabs: {
+      maison: 'images/products/kebabs/kebab-maison.png'
+    },
+    paninis: {
+      chicken: 'images/products/paninis/panini-chicken.png',
+      steak: 'images/products/paninis/panini-steak.png'
+    }
+  }
 };
 
 /* --- Custom cursor --- */
