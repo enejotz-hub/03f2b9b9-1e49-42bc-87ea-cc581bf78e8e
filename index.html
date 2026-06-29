@@ -1986,29 +1986,38 @@ const IMAGE_ASSETS = {
 const PRODUCT_IMAGE_MAP = {
   'Cheese Burger': '/photos-graille/BURGER/Cheese-burger.png',
   'Double Cheese': '/photos-graille/BURGER/Double-cheese.png',
+  'Giant Burger': '/photos-graille/BURGER/Double-cheese.png',
   'Pepper Burger': '/photos-graille/BURGER/PEPPE-%20BURGER.png',
   'Raclette Burger': '/photos-graille/BURGER/Racelette-Burger.png',
   'Brie Burger': '/photos-graille/BURGER/brie-burger.png',
+  'Tender Burger': '/photos-graille/PANIN/ChatGPT%20Image%2029%20juin%202026,%2001_16_03%20(9).png',
   'Gaunty Burger': '/photos-graille/BURGER/gaunty-burger.png',
   'Tacos Simple': '/photos-graille/TACOS/tacos%20simple.png',
   'Tacos Double': '/photos-graille/TACOS/tacos%20double.png',
   'Tacos Triple': '/photos-graille/TACOS/tacos%20triple.png',
   'Tacos Giga': '/photos-graille/TACOS/Tacos%20giga.png',
-  'Tacos Gratin\u00e9': '/photos-graille/TACOS/tacos%20granit%C3%A9.png',
+  'Tacos Gratiné': '/photos-graille/TACOS/tacos%20granit%C3%A9.png',
   'Kebab Seul': '/photos-graille/KEBAB/Kebab-Seul.png',
   'Kebab + Frites': '/photos-graille/KEBAB/kebab%20%2B%20frites.png',
   'Kebab Menu Complet': '/photos-graille/KEBAB/Kebab-menu-complet.png',
+  'Galette Kebab': '/photos-graille/KEBAB/Kebab-Seul.png',
   'Barquette de Viande': '/photos-graille/KEBAB/BARQUETTE-DE-VIANDE.png',
+  'Panini Kebab': '/photos-graille/PANIN/ChatGPT%20Image%2029%20juin%202026,%2001_16_03%20(10).png',
   'Panini Steak': '/photos-graille/PANIN/ChatGPT%20Image%2029%20juin%202026,%2001_16_03%20(10).png',
   'Panini Chicken': '/photos-graille/PANIN/ChatGPT%20Image%2029%20juin%202026,%2001_16_03%20(9).png',
+  'Panini Nutella': '/photos-graille/DESSERTS/Gauffre%20chocolat.png',
   'B-Bowl Savoyarde': '/photos-graille/BBOWLS/b-bowl%20savoyard.png',
-  'B-Bowl Ch\u00e8vre-Miel': '/photos-graille/BBOWLS/b-bowl%20chevre%20miel.png',
+  'B-Bowl Chèvre-Miel': '/photos-graille/BBOWLS/b-bowl%20chevre%20miel.png',
   'B-Bowl Oriental': '/photos-graille/BBOWLS/b-bowl%20orientale.png',
+  'B-Bowl à Composer': '/photos-graille/KEBAB/KEBAB-AsSIEtTE.png',
   'Assiette 1 Viande': '/photos-graille/ASSIETTE/Assiette-1-viande.png',
   'Assiette 2 Viandes': '/photos-graille/ASSIETTE/ASSIETTE-2-VIANDE.png',
   'Assiette 3 Viandes': '/photos-graille/ASSIETTE/ASSIETTE-3-VIANDE.png',
+  'Royal Bucket': '/photos-graille/ASSIETTE/ASSIETTE-3-VIANDE.png',
   'Salade Veggie': '/photos-graille/SALADE/salade%20veggie.png',
   'Salade Tender': '/photos-graille/SALADE/salade%20tender.png',
+  "Salade Pop's": '/photos-graille/SALADE/salade%20tender.png',
+  'Milkshake': '/photos-graille/DESSERTS/smoothie%20frais.png',
   'Smoothie Frais': '/photos-graille/DESSERTS/smoothie%20frais.png',
   'Donut': '/photos-graille/DESSERTS/donut.png',
   'Tarte Daim': '/photos-graille/DESSERTS/Tarte%20au%20daim.png',
@@ -2020,11 +2029,11 @@ const PRODUCT_CARD_IMAGE_FALLBACKS = {
   'p-burgers': [
     PRODUCT_IMAGE_MAP['Cheese Burger'],
     PRODUCT_IMAGE_MAP['Double Cheese'],
-    '',
+    PRODUCT_IMAGE_MAP['Giant Burger'],
     PRODUCT_IMAGE_MAP['Pepper Burger'],
     PRODUCT_IMAGE_MAP['Raclette Burger'],
     PRODUCT_IMAGE_MAP['Brie Burger'],
-    '',
+    PRODUCT_IMAGE_MAP['Tender Burger'],
     PRODUCT_IMAGE_MAP['Gaunty Burger']
   ],
   'p-tacos': [
@@ -2032,40 +2041,40 @@ const PRODUCT_CARD_IMAGE_FALLBACKS = {
     PRODUCT_IMAGE_MAP['Tacos Double'],
     PRODUCT_IMAGE_MAP['Tacos Triple'],
     PRODUCT_IMAGE_MAP['Tacos Giga'],
-    PRODUCT_IMAGE_MAP['Tacos Gratin\u00e9']
+    PRODUCT_IMAGE_MAP['Tacos Gratiné']
   ],
   'p-kebabs': [
     PRODUCT_IMAGE_MAP['Kebab Seul'],
     PRODUCT_IMAGE_MAP['Kebab + Frites'],
     PRODUCT_IMAGE_MAP['Kebab Menu Complet'],
-    '',
+    PRODUCT_IMAGE_MAP['Galette Kebab'],
     PRODUCT_IMAGE_MAP['Barquette de Viande']
   ],
   'p-paninis': [
-    '',
+    PRODUCT_IMAGE_MAP['Panini Kebab'],
     PRODUCT_IMAGE_MAP['Panini Steak'],
     PRODUCT_IMAGE_MAP['Panini Chicken'],
-    ''
+    PRODUCT_IMAGE_MAP['Panini Nutella']
   ],
   'p-bowls': [
     PRODUCT_IMAGE_MAP['B-Bowl Savoyarde'],
-    PRODUCT_IMAGE_MAP['B-Bowl Ch\u00e8vre-Miel'],
+    PRODUCT_IMAGE_MAP['B-Bowl Chèvre-Miel'],
     PRODUCT_IMAGE_MAP['B-Bowl Oriental'],
-    ''
+    PRODUCT_IMAGE_MAP['B-Bowl à Composer']
   ],
   'p-assiettes': [
     PRODUCT_IMAGE_MAP['Assiette 1 Viande'],
     PRODUCT_IMAGE_MAP['Assiette 2 Viandes'],
     PRODUCT_IMAGE_MAP['Assiette 3 Viandes'],
-    ''
+    PRODUCT_IMAGE_MAP['Royal Bucket']
   ],
   'p-salades': [
     PRODUCT_IMAGE_MAP['Salade Veggie'],
     PRODUCT_IMAGE_MAP['Salade Tender'],
-    ''
+    PRODUCT_IMAGE_MAP["Salade Pop's"]
   ],
   'p-desserts': [
-    '',
+    PRODUCT_IMAGE_MAP['Milkshake'],
     PRODUCT_IMAGE_MAP['Smoothie Frais'],
     PRODUCT_IMAGE_MAP['Donut'],
     PRODUCT_IMAGE_MAP['Tarte Daim'],
