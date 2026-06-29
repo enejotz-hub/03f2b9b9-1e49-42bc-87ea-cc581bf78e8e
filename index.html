@@ -701,6 +701,24 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
   background-position: center !important;
   background-repeat: no-repeat !important;
 }
+.p-img-bg img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.p-img-bg.is-missing {
+  background:
+    linear-gradient(135deg, oklch(16% .015 60), oklch(9% .012 62));
+}
+.p-img-bg.is-missing::after {
+  content: 'Image bientot disponible';
+  color: oklch(78% .012 78);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 .p-card:hover .p-img-bg {
   transform: scale(1.13) translateY(-6px);
   filter: drop-shadow(0 14px 30px oklch(0% 0 0 / .65)) brightness(1.09);
@@ -785,29 +803,7 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
 .p-card:hover .p-price { color: oklch(82% .18 82); }
 .p-price sup { font-size: .8rem; vertical-align: super; line-height: 0; }
 
-#p-burgers .p-card:nth-child(1) .p-img-bg { background-image: url('images/products/burgers/cheese-burger.png') !important; }
-#p-burgers .p-card:nth-child(2) .p-img-bg,
-#p-burgers .p-card:nth-child(3) .p-img-bg,
-#p-burgers .p-card:nth-child(5) .p-img-bg,
-#p-burgers .p-card:nth-child(8) .p-img-bg { background-image: url('images/products/burgers/double-cheese-burger.png') !important; }
-#p-burgers .p-card:nth-child(4) .p-img-bg,
-#p-burgers .p-card:nth-child(6) .p-img-bg { background-image: url('images/products/burgers/cheese-burger.png') !important; }
-#p-burgers .p-card:nth-child(7) .p-img-bg { background-image: url('images/products/burgers/chicken-burger.png') !important; }
-#p-tacos .p-card:nth-child(1) .p-img-bg { background-image: url('images/products/tacos/tacos-chicken-fries.png') !important; }
-#p-tacos .p-card:nth-child(2) .p-img-bg { background-image: url('images/products/tacos/tacos-mixte.png') !important; }
-#p-tacos .p-card:nth-child(3) .p-img-bg { background-image: url('images/products/tacos/tacos-kebab.png') !important; }
-#p-tacos .p-card:nth-child(4) .p-img-bg { background-image: url('images/products/tacos/tacos-mixte.png') !important; }
-#p-tacos .p-card:nth-child(5) .p-img-bg { background-image: url('images/products/tacos/tacos-gratine.png') !important; }
-#p-kebabs .p-img-bg { background-image: url('images/products/kebabs/kebab-maison.png') !important; }
-#p-paninis .p-card:nth-child(1) .p-img-bg,
-#p-paninis .p-card:nth-child(2) .p-img-bg { background-image: url('images/products/paninis/panini-steak.png') !important; }
-#p-paninis .p-card:nth-child(3) .p-img-bg,
-#p-paninis .p-card:nth-child(4) .p-img-bg { background-image: url('images/products/paninis/panini-chicken.png') !important; }
-#p-bowls .p-img-bg { background-image: url('images/bbowl-mozzarella.jpg') !important; }
-#p-assiettes .p-img-bg { background-image: url('images/bbowl-fries.jpg') !important; }
-#p-salades .p-img-bg { background-image: url('images/kitchen-bburger.jpg') !important; }
-#p-desserts .p-img-bg { background-image: url('images/gallery-milkshake.jpg') !important; }
-#p-boissons .p-img-bg { background-image: url('images/gallery-milkshake.jpg') !important; }
+.p-img-bg { background-image: none !important; }
 
 /* ── CTA button avec shimmer ────────────────────────────── */
 .btn-add {
@@ -1986,6 +1982,160 @@ const IMAGE_ASSETS = {
     }
   }
 };
+
+const PRODUCT_IMAGE_MAP = {
+  'Cheese Burger': '/photos-graille/BURGER/Cheese-burger.png',
+  'Double Cheese': '/photos-graille/BURGER/Double-cheese.png',
+  'Pepper Burger': '/photos-graille/BURGER/PEPPE-%20BURGER.png',
+  'Raclette Burger': '/photos-graille/BURGER/Racelette-Burger.png',
+  'Brie Burger': '/photos-graille/BURGER/brie-burger.png',
+  'Gaunty Burger': '/photos-graille/BURGER/gaunty-burger.png',
+  'Tacos Simple': '/photos-graille/TACOS/tacos%20simple.png',
+  'Tacos Double': '/photos-graille/TACOS/tacos%20double.png',
+  'Tacos Triple': '/photos-graille/TACOS/tacos%20triple.png',
+  'Tacos Giga': '/photos-graille/TACOS/Tacos%20giga.png',
+  'Tacos Gratin\u00e9': '/photos-graille/TACOS/tacos%20granit%C3%A9.png',
+  'Kebab Seul': '/photos-graille/KEBAB/Kebab-Seul.png',
+  'Kebab + Frites': '/photos-graille/KEBAB/kebab%20%2B%20frites.png',
+  'Kebab Menu Complet': '/photos-graille/KEBAB/Kebab-menu-complet.png',
+  'Barquette de Viande': '/photos-graille/KEBAB/BARQUETTE-DE-VIANDE.png',
+  'Panini Steak': '/photos-graille/PANIN/ChatGPT%20Image%2029%20juin%202026,%2001_16_03%20(10).png',
+  'Panini Chicken': '/photos-graille/PANIN/ChatGPT%20Image%2029%20juin%202026,%2001_16_03%20(9).png',
+  'B-Bowl Savoyarde': '/photos-graille/BBOWLS/b-bowl%20savoyard.png',
+  'B-Bowl Ch\u00e8vre-Miel': '/photos-graille/BBOWLS/b-bowl%20chevre%20miel.png',
+  'B-Bowl Oriental': '/photos-graille/BBOWLS/b-bowl%20orientale.png',
+  'Assiette 1 Viande': '/photos-graille/ASSIETTE/Assiette-1-viande.png',
+  'Assiette 2 Viandes': '/photos-graille/ASSIETTE/ASSIETTE-2-VIANDE.png',
+  'Assiette 3 Viandes': '/photos-graille/ASSIETTE/ASSIETTE-3-VIANDE.png',
+  'Salade Veggie': '/photos-graille/SALADE/salade%20veggie.png',
+  'Salade Tender': '/photos-graille/SALADE/salade%20tender.png',
+  'Smoothie Frais': '/photos-graille/DESSERTS/smoothie%20frais.png',
+  'Donut': '/photos-graille/DESSERTS/donut.png',
+  'Tarte Daim': '/photos-graille/DESSERTS/Tarte%20au%20daim.png',
+  'Tiramisu': '/photos-graille/DESSERTS/Tiramisu.png',
+  'Gaufre Chocolat': '/photos-graille/DESSERTS/Gauffre%20chocolat.png'
+};
+
+const PRODUCT_CARD_IMAGE_FALLBACKS = {
+  'p-burgers': [
+    PRODUCT_IMAGE_MAP['Cheese Burger'],
+    PRODUCT_IMAGE_MAP['Double Cheese'],
+    '',
+    PRODUCT_IMAGE_MAP['Pepper Burger'],
+    PRODUCT_IMAGE_MAP['Raclette Burger'],
+    PRODUCT_IMAGE_MAP['Brie Burger'],
+    '',
+    PRODUCT_IMAGE_MAP['Gaunty Burger']
+  ],
+  'p-tacos': [
+    PRODUCT_IMAGE_MAP['Tacos Simple'],
+    PRODUCT_IMAGE_MAP['Tacos Double'],
+    PRODUCT_IMAGE_MAP['Tacos Triple'],
+    PRODUCT_IMAGE_MAP['Tacos Giga'],
+    PRODUCT_IMAGE_MAP['Tacos Gratin\u00e9']
+  ],
+  'p-kebabs': [
+    PRODUCT_IMAGE_MAP['Kebab Seul'],
+    PRODUCT_IMAGE_MAP['Kebab + Frites'],
+    PRODUCT_IMAGE_MAP['Kebab Menu Complet'],
+    '',
+    PRODUCT_IMAGE_MAP['Barquette de Viande']
+  ],
+  'p-paninis': [
+    '',
+    PRODUCT_IMAGE_MAP['Panini Steak'],
+    PRODUCT_IMAGE_MAP['Panini Chicken'],
+    ''
+  ],
+  'p-bowls': [
+    PRODUCT_IMAGE_MAP['B-Bowl Savoyarde'],
+    PRODUCT_IMAGE_MAP['B-Bowl Ch\u00e8vre-Miel'],
+    PRODUCT_IMAGE_MAP['B-Bowl Oriental'],
+    ''
+  ],
+  'p-assiettes': [
+    PRODUCT_IMAGE_MAP['Assiette 1 Viande'],
+    PRODUCT_IMAGE_MAP['Assiette 2 Viandes'],
+    PRODUCT_IMAGE_MAP['Assiette 3 Viandes'],
+    ''
+  ],
+  'p-salades': [
+    PRODUCT_IMAGE_MAP['Salade Veggie'],
+    PRODUCT_IMAGE_MAP['Salade Tender'],
+    ''
+  ],
+  'p-desserts': [
+    '',
+    PRODUCT_IMAGE_MAP['Smoothie Frais'],
+    PRODUCT_IMAGE_MAP['Donut'],
+    PRODUCT_IMAGE_MAP['Tarte Daim'],
+    PRODUCT_IMAGE_MAP['Tiramisu'],
+    PRODUCT_IMAGE_MAP['Gaufre Chocolat']
+  ]
+};
+
+const PRODUCT_CATEGORY_LABELS = {
+  'p-burgers': 'Burgers',
+  'p-tacos': 'Tacos',
+  'p-kebabs': 'Kebab',
+  'p-paninis': 'Paninis',
+  'p-bowls': 'Bowls',
+  'p-assiettes': 'Assiettes',
+  'p-salades': 'Salades',
+  'p-desserts': 'Desserts',
+  'p-boissons': 'Boissons'
+};
+
+function productKey(value) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+const PRODUCT_IMAGE_LOOKUP = Object.fromEntries(
+  Object.entries(PRODUCT_IMAGE_MAP).map(([name, src]) => [productKey(name), src])
+);
+
+function getProductImageSrc(name, panelId, cardIndex) {
+  return PRODUCT_IMAGE_MAP[name]
+    || PRODUCT_IMAGE_LOOKUP[productKey(name)]
+    || (PRODUCT_CARD_IMAGE_FALLBACKS[panelId] && PRODUCT_CARD_IMAGE_FALLBACKS[panelId][cardIndex])
+    || '';
+}
+
+function initProductImages() {
+  document.querySelectorAll('#menu .panel').forEach(panel => {
+    panel.querySelectorAll('.p-card').forEach((card, cardIndex) => {
+    const nameEl = card.querySelector('.p-name');
+    const imageBox = card.querySelector('.p-img-bg');
+    if (!nameEl || !imageBox) return;
+
+    const name = nameEl.textContent.trim();
+    const category = PRODUCT_CATEGORY_LABELS[panel && panel.id] || 'Menu';
+    const src = getProductImageSrc(name, panel && panel.id, cardIndex);
+
+    imageBox.textContent = '';
+    imageBox.classList.toggle('is-missing', !src);
+    if (!src) return;
+
+    const image = document.createElement('img');
+    image.src = src;
+    image.alt = `${name} - ${category}`;
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.onerror = () => {
+      image.remove();
+      imageBox.classList.add('is-missing');
+    };
+    imageBox.appendChild(image);
+  });
+  });
+}
+
+initProductImages();
 
 /* --- Custom cursor --- */
 const cur = document.getElementById('cur');
