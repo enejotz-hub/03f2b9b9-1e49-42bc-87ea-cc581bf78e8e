@@ -2025,6 +2025,8 @@ const PRODUCT_IMAGE_MAP = {
   'Gaufre Chocolat': '/photos-graille/categories/desserts/gaufre-chocolat.png'
 };
 
+const PRODUCT_IMAGE_FALLBACK = '';
+
 const PRODUCT_CARD_IMAGE_FALLBACKS = {
   'p-burgers': [
     PRODUCT_IMAGE_MAP['Cheese Burger'],
@@ -2112,36 +2114,39 @@ function getProductImageSrc(name, panelId, cardIndex) {
   return PRODUCT_IMAGE_MAP[name]
     || PRODUCT_IMAGE_LOOKUP[productKey(name)]
     || (PRODUCT_CARD_IMAGE_FALLBACKS[panelId] && PRODUCT_CARD_IMAGE_FALLBACKS[panelId][cardIndex])
-    || '';
+    || PRODUCT_IMAGE_FALLBACK;
 }
 
 function initProductImages() {
   document.querySelectorAll('#menu .panel').forEach(panel => {
     panel.querySelectorAll('.p-card').forEach((card, cardIndex) => {
-    const nameEl = card.querySelector('.p-name');
-    const imageBox = card.querySelector('.p-img-bg');
-    if (!nameEl || !imageBox) return;
+      const nameEl = card.querySelector('.p-name');
+      const imageBox = card.querySelector('.p-img-bg');
+      if (!nameEl || !imageBox) return;
 
-    const name = nameEl.textContent.trim();
-    const category = PRODUCT_CATEGORY_LABELS[panel && panel.id] || 'Menu';
-    const src = getProductImageSrc(name, panel && panel.id, cardIndex);
+      const name = nameEl.textContent.trim();
+      const category = PRODUCT_CATEGORY_LABELS[panel && panel.id] || 'Menu';
+      const imageSrc = getProductImageSrc(name, panel && panel.id, cardIndex);
 
-    imageBox.textContent = '';
-    imageBox.classList.toggle('is-missing', !src);
-    if (!src) return;
+      imageBox.textContent = '';
+      imageBox.classList.toggle('is-missing', !imageSrc);
+      if (!imageSrc) return;
 
-    const image = document.createElement('img');
-    image.src = src;
-    image.alt = `${name} - ${category}`;
-    image.loading = 'lazy';
-    image.decoding = 'async';
-    console.log('[product-image]', name, src);
-    image.onerror = () => {
-      image.remove();
-      imageBox.classList.add('is-missing');
-    };
-    imageBox.appendChild(image);
-  });
+      const image = document.createElement('img');
+      image.src = imageSrc;
+      image.alt = `${name} - ${category}`;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.onerror = () => {
+        if (PRODUCT_IMAGE_FALLBACK && image.src !== PRODUCT_IMAGE_FALLBACK) {
+          image.src = PRODUCT_IMAGE_FALLBACK;
+          return;
+        }
+        image.remove();
+        imageBox.classList.add('is-missing');
+      };
+      imageBox.appendChild(image);
+    });
   });
 }
 
