@@ -515,51 +515,93 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
 }
 .htag b { color: var(--gold); }
 .hist-uber {
-  margin-top: 1.1rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--rs);
-  padding: 1rem;
-  max-width: 360px;
+  margin-top: 1.25rem;
+  max-width: 390px;
+  padding: 1.15rem;
+  border-radius: 8px;
+  border: 1px solid oklch(100% 0 0 / .08);
+  background:
+    linear-gradient(135deg, oklch(13% .018 72 / .96), oklch(8% .012 72 / .98)),
+    var(--surface);
+  box-shadow: 0 18px 38px oklch(0% 0 0 / .28), inset 0 1px 0 oklch(100% 0 0 / .05);
+  position: relative;
+  overflow: hidden;
+}
+.hist-uber::before {
+  content: '';
+  position: absolute; inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, oklch(74% .18 145), var(--gold));
 }
 .hist-uber-top {
-  display: flex; align-items: center; justify-content: space-between; gap: .8rem;
-  margin-bottom: .7rem;
+  display: flex; align-items: center; gap: .8rem;
+  margin-bottom: .85rem;
+}
+.hist-uber-mark {
+  width: 42px; height: 42px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  background: oklch(74% .18 145);
+  color: oklch(8% .02 145);
+  font-weight: 900;
+  font-size: .82rem;
+  box-shadow: 0 10px 24px oklch(74% .18 145 / .22);
+  flex: 0 0 auto;
+}
+.hist-uber-meta {
+  min-width: 0;
 }
 .hist-uber-name {
   font-family: var(--font-d);
-  font-size: 1.05rem;
+  font-size: 1.18rem;
   color: var(--fg);
-  letter-spacing: .02em;
+  letter-spacing: .01em;
+  line-height: 1.05;
 }
 .hist-uber-pill {
   display: inline-flex; align-items: center;
-  padding: .35rem .6rem;
+  width: fit-content;
+  margin-bottom: .35rem;
+  padding: .26rem .55rem;
   border-radius: 100px;
-  background: oklch(74% .18 145);
-  color: oklch(8% .02 145);
-  font-size: .68rem;
+  background: oklch(74% .18 145 / .12);
+  color: oklch(82% .18 145);
+  border: 1px solid oklch(74% .18 145 / .35);
+  font-size: .66rem;
   font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 .hist-uber-text {
-  color: var(--muted);
-  font-size: .86rem;
+  color: var(--fg);
+  font-size: .94rem;
   line-height: 1.5;
-  margin: 0 0 .9rem;
+  margin: 0 0 .45rem;
+}
+.hist-uber-note {
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.45;
+  margin: 0 0 1rem;
 }
 .hist-uber-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 100%;
-  min-height: 42px;
+  min-height: 46px;
   border-radius: 4px;
-  background: var(--gold);
-  color: var(--bg);
+  background: linear-gradient(135deg, oklch(78% .17 86), var(--gold));
+  color: oklch(7% .012 70);
   font-weight: 700;
   text-decoration: none;
-  transition: transform .2s, filter .2s;
+  box-shadow: 0 12px 26px oklch(72% .16 82 / .18);
+  transition: transform .2s, filter .2s, box-shadow .2s;
 }
-.hist-uber-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+.hist-uber-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 16px 30px oklch(72% .16 82 / .25);
+}
 .hist-paras { padding-top: .5rem; }
 .hist-p {
   color: var(--muted); font-size: 1rem; line-height: 1.82;
@@ -1603,10 +1645,14 @@ footer {
     </div>
     <div class="hist-uber rv">
       <div class="hist-uber-top">
-        <span class="hist-uber-name">B’Burger Carmaux</span>
-        <span class="hist-uber-pill">Uber Eats</span>
+        <span class="hist-uber-mark" aria-hidden="true">UE</span>
+        <div class="hist-uber-meta">
+          <span class="hist-uber-pill">Uber Eats</span>
+          <div class="hist-uber-name">B’Burger Carmaux</div>
+        </div>
       </div>
-      <p class="hist-uber-text">Disponible sur Uber Eats. Horaires et disponibilité à vérifier sur Uber Eats.</p>
+      <p class="hist-uber-text">Commandez vos favoris directement sur Uber Eats</p>
+      <p class="hist-uber-note">Horaires et disponibilité à vérifier sur Uber Eats</p>
       <a class="hist-uber-btn" href="https://www.ubereats.com/fr/store/bburger-carmaux/haSwrZ01X6WSiznSubRaZg?srsltid=AfmBOornSPX7ZEnAaxKjh3oh3TKtwdt0NPPNRNTNuxwC0nRozrUosQwD" target="_blank" rel="noopener noreferrer">Commander sur Uber Eats</a>
     </div>
   </div>
