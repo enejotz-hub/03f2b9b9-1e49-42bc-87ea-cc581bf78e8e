@@ -41,6 +41,54 @@ body {
   cursor: none;
 }
 
+.site-ambience {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: .38;
+  mix-blend-mode: screen;
+}
+.amb-glow {
+  position: absolute;
+  width: clamp(220px, 28vw, 420px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(34px);
+  opacity: .18;
+  background: radial-gradient(circle, var(--gold) 0%, oklch(64% .19 38 / .42) 34%, transparent 70%);
+  animation: amb-drift 18s ease-in-out infinite alternate;
+}
+.amb-glow.g1 { left: -8vw; top: 18vh; }
+.amb-glow.g2 { right: -10vw; top: 48vh; animation-duration: 22s; animation-delay: -5s; }
+.amb-glow.g3 { left: 42vw; bottom: -14vh; animation-duration: 26s; animation-delay: -9s; }
+.amb-particle {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: oklch(82% .18 88);
+  box-shadow: 0 0 10px oklch(82% .18 88 / .65);
+  opacity: .42;
+  animation: amb-float 16s ease-in-out infinite;
+}
+.amb-particle:nth-child(4) { left: 12%; top: 22%; animation-delay: -2s; }
+.amb-particle:nth-child(5) { left: 24%; top: 68%; animation-delay: -7s; }
+.amb-particle:nth-child(6) { left: 39%; top: 34%; animation-delay: -11s; }
+.amb-particle:nth-child(7) { left: 58%; top: 76%; animation-delay: -4s; }
+.amb-particle:nth-child(8) { left: 72%; top: 28%; animation-delay: -9s; }
+.amb-particle:nth-child(9) { left: 86%; top: 58%; animation-delay: -13s; }
+.amb-particle:nth-child(10) { left: 48%; top: 14%; animation-delay: -6s; }
+.amb-particle:nth-child(11) { left: 8%; top: 84%; animation-delay: -15s; }
+@keyframes amb-drift {
+  from { transform: translate3d(0,0,0) scale(1); }
+  to { transform: translate3d(26px,-18px,0) scale(1.08); }
+}
+@keyframes amb-float {
+  0%, 100% { transform: translate3d(0,0,0); opacity: .22; }
+  45% { transform: translate3d(16px,-28px,0); opacity: .5; }
+}
+
 /* ─── CURSOR ─────────────────────────────────────────────── */
 #cur {
   position: fixed; width: 10px; height: 10px;
@@ -1271,6 +1319,8 @@ footer {
   .hero-meta{ justify-content:center; flex-direction:column; align-items:center; gap:1.2rem; }
   .hero-meta > div { border-right:none !important; margin-right:0 !important; }
   .hero-sub{ max-width:100%; text-align:center; }
+  .site-ambience { opacity: .24; }
+  .amb-glow.g2, .amb-glow.g3, .amb-particle:nth-child(n+8) { display: none; }
   #histoire{ grid-template-columns:1fr; gap:2.5rem; }
   .hist-sticky{ position:static; }
   .eng-grid{ grid-template-columns:repeat(2,1fr); }
@@ -1310,6 +1360,11 @@ footer {
 }
 
 /* ─── B BOWL SHOWCASE ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .amb-glow, .amb-particle { animation: none; }
+  .site-ambience { opacity: .22; }
+}
+
 #bbowl {
   position: relative;
   min-height: 480vh;
@@ -1430,6 +1485,20 @@ footer {
 </style>
 </head>
 <body>
+
+<div class="site-ambience" aria-hidden="true">
+  <span class="amb-glow g1"></span>
+  <span class="amb-glow g2"></span>
+  <span class="amb-glow g3"></span>
+  <span class="amb-particle"></span>
+  <span class="amb-particle"></span>
+  <span class="amb-particle"></span>
+  <span class="amb-particle"></span>
+  <span class="amb-particle"></span>
+  <span class="amb-particle"></span>
+  <span class="amb-particle"></span>
+  <span class="amb-particle"></span>
+</div>
 
 <div id="cur"></div>
 <div id="cur-r"></div>
