@@ -516,91 +516,96 @@ section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3rem); position: relati
 .htag b { color: var(--gold); }
 .hist-uber {
   margin-top: 1.25rem;
-  max-width: 390px;
-  padding: 1.15rem;
-  border-radius: 8px;
-  border: 1px solid oklch(100% 0 0 / .08);
+  max-width: 340px;
+  padding: 1.1rem;
+  border-radius: 12px;
+  border: 1px solid oklch(74% .18 145 / .24);
   background:
-    linear-gradient(135deg, oklch(13% .018 72 / .96), oklch(8% .012 72 / .98)),
+    radial-gradient(circle at 100% 0%, oklch(74% .18 145 / .11), transparent 34%),
+    linear-gradient(145deg, oklch(13% .012 80 / .96), oklch(7% .008 80 / .98)),
     var(--surface);
-  box-shadow: 0 18px 38px oklch(0% 0 0 / .28), inset 0 1px 0 oklch(100% 0 0 / .05);
+  box-shadow: 0 18px 42px oklch(0% 0 0 / .36), 0 0 0 1px oklch(100% 0 0 / .03) inset;
   position: relative;
   overflow: hidden;
+  transition: transform .24s, border-color .24s, box-shadow .24s;
 }
-.hist-uber::before {
-  content: '';
-  position: absolute; inset: 0 0 auto;
-  height: 3px;
-  background: linear-gradient(90deg, oklch(74% .18 145), var(--gold));
+.hist-uber:hover {
+  transform: translateY(-2px);
+  border-color: oklch(74% .18 145 / .42);
+  box-shadow: 0 24px 52px oklch(0% 0 0 / .44), 0 0 24px oklch(74% .18 145 / .10);
 }
-.hist-uber-top {
-  display: flex; align-items: center; gap: .8rem;
+.hist-uber-logo {
+  display: flex; align-items: baseline;
   margin-bottom: .85rem;
+  font-size: 1.42rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -.02em;
 }
-.hist-uber-mark {
-  width: 42px; height: 42px;
-  display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 8px;
-  background: oklch(74% .18 145);
-  color: oklch(8% .02 145);
-  font-weight: 900;
-  font-size: .82rem;
-  box-shadow: 0 10px 24px oklch(74% .18 145 / .22);
-  flex: 0 0 auto;
-}
-.hist-uber-meta {
-  min-width: 0;
-}
-.hist-uber-name {
-  font-family: var(--font-d);
-  font-size: 1.18rem;
-  color: var(--fg);
-  letter-spacing: .01em;
-  line-height: 1.05;
-}
-.hist-uber-pill {
-  display: inline-flex; align-items: center;
-  width: fit-content;
-  margin-bottom: .35rem;
-  padding: .26rem .55rem;
-  border-radius: 100px;
-  background: oklch(74% .18 145 / .12);
-  color: oklch(82% .18 145);
-  border: 1px solid oklch(74% .18 145 / .35);
-  font-size: .66rem;
+.hist-uber-logo .uber { color: oklch(5% .006 80); text-shadow: 0 1px 0 oklch(100% 0 0 / .12); }
+.hist-uber-logo .eats { color: oklch(73% .18 145); }
+.hist-uber-status {
+  display: inline-flex; align-items: center; gap: .38rem;
+  margin-bottom: .68rem;
+  color: oklch(72% .20 28);
+  font-size: .76rem;
   font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  white-space: nowrap;
 }
-.hist-uber-text {
+.hist-uber-status::before {
+  content: '';
+  width: .48rem; height: .48rem;
+  border-radius: 50%;
+  background: oklch(62% .24 28);
+  box-shadow: 0 0 0 3px oklch(62% .24 28 / .16);
+}
+.hist-uber-rating {
+  display: flex; align-items: baseline; gap: .35rem;
+  margin-bottom: .58rem;
+}
+.hist-uber-star { color: oklch(82% .18 82); font-size: .92rem; }
+.hist-uber-score {
   color: var(--fg);
-  font-size: .94rem;
-  line-height: 1.5;
-  margin: 0 0 .45rem;
+  font-size: 1.55rem;
+  font-weight: 900;
+  line-height: 1;
 }
-.hist-uber-note {
-  color: var(--muted);
-  font-size: .78rem;
-  line-height: 1.45;
-  margin: 0 0 1rem;
+.hist-uber-reviews {
+  color: oklch(62% .012 80);
+  font-size: .72rem;
+  font-weight: 700;
+}
+.hist-uber-tags {
+  display: flex; gap: .42rem; flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.hist-uber-tag {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 22px;
+  padding: .25rem .55rem;
+  border-radius: 4px;
+  background: oklch(22% .008 80);
+  color: oklch(78% .012 80);
+  font-size: .68rem;
+  font-weight: 700;
 }
 .hist-uber-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 100%;
-  min-height: 46px;
-  border-radius: 4px;
-  background: linear-gradient(135deg, oklch(78% .17 86), var(--gold));
-  color: oklch(7% .012 70);
-  font-weight: 700;
+  min-height: 44px;
+  border-radius: 8px;
+  background: oklch(72% .19 145);
+  color: oklch(6% .018 145);
+  font-size: .82rem;
+  font-weight: 900;
+  letter-spacing: .08em;
   text-decoration: none;
-  box-shadow: 0 12px 26px oklch(72% .16 82 / .18);
-  transition: transform .2s, filter .2s, box-shadow .2s;
+  box-shadow: 0 14px 28px oklch(72% .19 145 / .22);
+  transition: transform .2s, filter .2s, box-shadow .2s, background .2s;
 }
 .hist-uber-btn:hover {
   transform: translateY(-2px);
-  filter: brightness(1.05);
-  box-shadow: 0 16px 30px oklch(72% .16 82 / .25);
+  filter: brightness(1.06);
+  box-shadow: 0 18px 34px oklch(72% .19 145 / .30);
 }
 .hist-paras { padding-top: .5rem; }
 .hist-p {
@@ -1644,16 +1649,20 @@ footer {
       
     </div>
     <div class="hist-uber rv">
-      <div class="hist-uber-top">
-        <span class="hist-uber-mark" aria-hidden="true">UE</span>
-        <div class="hist-uber-meta">
-          <span class="hist-uber-pill">Uber Eats</span>
-          <div class="hist-uber-name">B’Burger Carmaux</div>
-        </div>
+      <div class="hist-uber-logo" aria-label="Uber Eats">
+        <span class="uber">Uber</span><span class="eats">Eats</span>
       </div>
-      <p class="hist-uber-text">Commandez vos favoris directement sur Uber Eats</p>
-      <p class="hist-uber-note">Horaires et disponibilité à vérifier sur Uber Eats</p>
-      <a class="hist-uber-btn" href="https://www.ubereats.com/fr/store/bburger-carmaux/haSwrZ01X6WSiznSubRaZg?srsltid=AfmBOornSPX7ZEnAaxKjh3oh3TKtwdt0NPPNRNTNuxwC0nRozrUosQwD" target="_blank" rel="noopener noreferrer">Commander sur Uber Eats</a>
+      <div class="hist-uber-status">Disponible ce soir à 19h</div>
+      <div class="hist-uber-rating">
+        <span class="hist-uber-star">★</span>
+        <span class="hist-uber-score">4,3</span>
+        <span class="hist-uber-reviews">500+ avis</span>
+      </div>
+      <div class="hist-uber-tags">
+        <span class="hist-uber-tag">Livraison</span>
+        <span class="hist-uber-tag">Click &amp; Collect</span>
+      </div>
+      <a class="hist-uber-btn" href="https://www.ubereats.com/fr/store/bburger-carmaux/haSwrZ01X6WSiznSubRaZg?srsltid=AfmBOornSPX7ZEnAaxKjh3oh3TKtwdt0NPPNRNTNuxwC0nRozrUosQwD" target="_blank" rel="noopener noreferrer">COMMANDER →</a>
     </div>
   </div>
   <div class="hist-paras">
