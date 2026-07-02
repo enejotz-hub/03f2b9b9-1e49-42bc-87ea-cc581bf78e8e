@@ -1352,30 +1352,76 @@ footer {
 }
 .bbowl-sticky {
   position: sticky; top: 0; height: 100vh;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 4rem 3rem 3.5rem;
+  display: grid;
+  place-items: center;
+  padding: 4rem clamp(1.5rem, 4vw, 4.5rem) 3.5rem;
   overflow: hidden;
-  gap: 1.1rem;
 }
 .bbowl-bg {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 50% at 50% 44%, oklch(22% .08 52 / .28) 0%, transparent 65%),
+    radial-gradient(circle at 22% 50%, oklch(72% .16 78 / .13) 0 1.5px, transparent 1.8px),
+    radial-gradient(ellipse 42% 58% at 24% 52%, oklch(25% .09 54 / .42) 0%, transparent 70%),
+    radial-gradient(ellipse 58% 48% at 74% 48%, oklch(22% .08 52 / .26) 0%, transparent 68%),
     radial-gradient(ellipse 80% 60% at 50% 70%, oklch(5% .006 58 / .9) 0%, transparent 80%);
+  background-size: 34px 34px, auto, auto, auto;
 }
 .bbowl-noise {
   position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 195px;
 }
-.bbowl-eye {
+.bbowl-layout {
   position: relative; z-index: 3;
-  display: flex; align-items: center; gap: .75rem;
-  font-size: .64rem; font-weight: 700; letter-spacing: .28em;
-  text-transform: uppercase; color: var(--gold);
+  width: min(1180px, 100%);
+  display: grid;
+  grid-template-columns: minmax(260px, .8fr) minmax(420px, 1.2fr);
+  align-items: center;
+  gap: clamp(3rem, 7vw, 7rem);
 }
-.bbowl-eye::before { content: ''; display: block; width: 18px; height: 1.5px; background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+.bbowl-copy {
+  position: relative;
+  max-width: 480px;
+  padding: clamp(1.35rem, 3vw, 2.25rem) 0;
+}
+.bbowl-copy::before {
+  content: '';
+  position: absolute;
+  inset: -18% -16% -16% -14%;
+  z-index: -1;
+  border-radius: 999px;
+  background:
+    repeating-radial-gradient(circle at 18% 50%, transparent 0 18px, oklch(76% .16 82 / .08) 19px 20px, transparent 21px 38px),
+    radial-gradient(circle at 78% 18%, oklch(67% .19 42 / .13) 0 2px, transparent 2.5px),
+    linear-gradient(135deg, oklch(18% .05 55 / .74), transparent 62%);
+  background-size: auto, 22px 22px, auto;
+  opacity: .9;
+  filter: blur(.1px);
+}
+.bbowl-title {
+  margin: 0;
+  font-family: var(--font-d);
+  font-size: clamp(3rem, 6.8vw, 6.8rem);
+  line-height: .88;
+  color: var(--fg);
+  max-width: 7ch;
+  text-transform: uppercase;
+}
+.bbowl-desc {
+  margin: 1.35rem 0 0;
+  max-width: 34rem;
+  color: oklch(88% .025 74 / .84);
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  line-height: 1.75;
+}
+.bbowl-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  transform: translateX(clamp(1rem, 4vw, 3.5rem));
+}
 
 /* ── Stack des 5 photos ──────────────────────────────── */
 .bb-imgs {
@@ -1453,14 +1499,47 @@ footer {
 .bb-track-fill { position: absolute; top: 0; left: 0; right: 0; background: var(--gold); height: 0%; border-radius: 1px; }
 
 @media(max-width:768px) {
-  .bbowl-sticky { padding: 3.5rem 1.5rem 3rem; gap: 1rem; }
+  .bbowl-sticky {
+    align-items: center;
+    padding: 3.5rem 1.5rem 3rem;
+  }
+  .bbowl-layout {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+    text-align: left;
+  }
+  .bbowl-copy {
+    max-width: 36rem;
+    padding-top: 1rem;
+  }
+  .bbowl-title {
+    max-width: 9ch;
+  }
+  .bbowl-desc {
+    max-width: 31rem;
+  }
+  .bbowl-visual {
+    transform: none;
+    gap: 1rem;
+  }
   .bb-steps, .bb-scroll-track { display: none; }
   .bb-imgs { width: min(88vw, 440px); }
   #bbowl { min-height: 550vh; }
 }
 @media(max-width:480px) {
-  .bb-imgs { width: 94vw; }
+  .bbowl-sticky { padding: 2.5rem 1.1rem 2rem; }
+  .bbowl-layout { gap: 1rem; }
+  .bbowl-copy { padding: 0; }
+  .bbowl-copy::before { inset: -12% -10%; }
+  .bbowl-title { font-size: clamp(2.35rem, 12vw, 3rem); }
+  .bbowl-desc {
+    margin-top: .85rem;
+    font-size: .92rem;
+    line-height: 1.55;
+  }
+  .bb-imgs { width: min(88vw, 360px); }
   .bb-sl-n, .bb-sl-t { font-size: 1.55rem; }
+  .bbowl-cta { margin-top: .75rem; }
 }
 </style>
 </head>
@@ -1794,28 +1873,34 @@ footer {
       <span class="bb-scroll-lbl">Scroll</span>
     </div>
 
-    <!-- Eyebrow -->
-    <p class="bbowl-eye" style="font-size: 16.24px; gap: 20px; flex-direction: row; justify-content: center; align-items: center;">B Bowl Orientale </p>
+    <div class="bbowl-layout">
+      <div class="bbowl-copy">
+        <h2 class="bbowl-title">B Bowl oriental</h2>
+        <p class="bbowl-desc">Une base fondante de pommes de terre, nappée de sauce fromagère, garnie de merguez, poivrons grillés et mozzarella fondante.</p>
+      </div>
 
-    <!-- 5 états du bowl — crossfade piloté par GSAP + scroll -->
-    <div class="bb-imgs" id="bb-imgs">
-      <img class="bb-state" id="bb-s1" src="images/bbowl-fries.jpg" alt="B Bowl généreuse" loading="lazy" decoding="async">
-      <img class="bb-state" id="bb-s2" src="images/bbowl-cheese-sauce.jpg" alt="B Bowl sauce fromagère" loading="lazy" decoding="async">
-      <img class="bb-state" id="bb-s3" src="images/bbowl-merguez.jpg" alt="B Bowl merguez halal" loading="lazy" decoding="async">
-      <img class="bb-state" id="bb-s4" src="images/bbowl-peppers.jpg" alt="B Bowl poivrons grillés" loading="lazy" decoding="async">
-      <img class="bb-state" id="bb-s5" src="images/bbowl-mozzarella.jpg" alt="B Bowl mozzarella" loading="lazy" decoding="async">
-    </div>
+      <div class="bbowl-visual">
+        <!-- 5 états du bowl — crossfade piloté par GSAP + scroll -->
+        <div class="bb-imgs" id="bb-imgs">
+          <img class="bb-state" id="bb-s1" src="images/bbowl-fries.jpg" alt="B Bowl généreuse" loading="lazy" decoding="async">
+          <img class="bb-state" id="bb-s2" src="images/bbowl-cheese-sauce.jpg" alt="B Bowl sauce fromagère" loading="lazy" decoding="async">
+          <img class="bb-state" id="bb-s3" src="images/bbowl-merguez.jpg" alt="B Bowl merguez halal" loading="lazy" decoding="async">
+          <img class="bb-state" id="bb-s4" src="images/bbowl-peppers.jpg" alt="B Bowl poivrons grillés" loading="lazy" decoding="async">
+          <img class="bb-state" id="bb-s5" src="images/bbowl-mozzarella.jpg" alt="B Bowl mozzarella" loading="lazy" decoding="async">
+        </div>
 
-    <!-- Label de l'étape active -->
-    <div class="bb-step-label" id="bb-step-label">
-      <span class="bb-sl-n" id="bb-sl-n">01</span>
-      <span class="bb-sl-t" id="bb-sl-t">Frites</span>
-    </div>
+        <!-- Label de l'étape active -->
+        <div class="bb-step-label" id="bb-step-label">
+          <span class="bb-sl-n" id="bb-sl-n">01</span>
+          <span class="bb-sl-t" id="bb-sl-t">Frites</span>
+        </div>
 
-    <!-- CTA — toujours visible -->
-    <div class="bbowl-cta" id="bbowl-cta">
-      <a href="tel:0769096954" class="btn-p">Commander ma B Bowl →</a>
-      <span class="bbowl-cta-price">dès <strong>9,50 €</strong></span>
+        <!-- CTA — toujours visible -->
+        <div class="bbowl-cta" id="bbowl-cta">
+          <a href="tel:0769096954" class="btn-p">Commander ma B Bowl →</a>
+          <span class="bbowl-cta-price">dès <strong>9,50 €</strong></span>
+        </div>
+      </div>
     </div>
 
     <!-- Right step indicators -->
