@@ -1358,13 +1358,13 @@ footer {
   overflow: hidden;
 }
 .bbowl-bg {
-  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  position: absolute; inset: -18% -8%; z-index: 0; pointer-events: none;
+  opacity: .78;
   background:
-    radial-gradient(circle at 22% 42%, oklch(48% .16 48 / .24) 0%, transparent 38%),
-    radial-gradient(circle at 72% 58%, oklch(34% .12 64 / .18) 0%, transparent 42%),
-    radial-gradient(circle, oklch(79% .13 78 / .045) 0 1px, transparent 1.2px),
-    linear-gradient(180deg, oklch(10% .028 52) 0%, oklch(6% .018 50) 100%);
-  background-size: auto, auto, 30px 30px, auto;
+    radial-gradient(ellipse 48% 42% at 24% 42%, oklch(52% .17 46 / .18) 0%, transparent 72%),
+    radial-gradient(ellipse 60% 48% at 58% 58%, oklch(38% .12 62 / .09) 0%, transparent 76%),
+    radial-gradient(circle, oklch(79% .13 78 / .035) 0 1px, transparent 1.2px);
+  background-size: auto, auto, 30px 30px;
 }
 .bbowl-noise {
   position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .03;
