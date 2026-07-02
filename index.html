@@ -1360,9 +1360,11 @@ footer {
 .bbowl-bg {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(circle, oklch(78% .12 78 / .055) 0 1px, transparent 1.2px),
-    linear-gradient(180deg, oklch(9% .018 55) 0%, oklch(5% .01 58) 100%);
-  background-size: 28px 28px, auto;
+    radial-gradient(circle at 22% 42%, oklch(48% .16 48 / .24) 0%, transparent 38%),
+    radial-gradient(circle at 72% 58%, oklch(34% .12 64 / .18) 0%, transparent 42%),
+    radial-gradient(circle, oklch(79% .13 78 / .045) 0 1px, transparent 1.2px),
+    linear-gradient(180deg, oklch(10% .028 52) 0%, oklch(6% .018 50) 100%);
+  background-size: auto, auto, 30px 30px, auto;
 }
 .bbowl-noise {
   position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .03;
@@ -1391,8 +1393,9 @@ footer {
   color: var(--fg);
   white-space: nowrap;
 }
+.bbowl-title-accent { color: var(--gold); }
 .bbowl-desc {
-  margin: 1.35rem 0 0;
+  margin: 1.85rem 0 0;
   max-width: 34rem;
   color: oklch(88% .025 74 / .84);
   font-size: clamp(1rem, 1.5vw, 1.18rem);
@@ -1517,7 +1520,7 @@ footer {
   .bbowl-copy { padding: 0; }
   .bbowl-title { font-size: clamp(2.35rem, 12vw, 3rem); }
   .bbowl-desc {
-    margin-top: .85rem;
+    margin-top: 1.05rem;
     font-size: .92rem;
     line-height: 1.55;
   }
@@ -1859,7 +1862,7 @@ footer {
 
     <div class="bbowl-layout">
       <div class="bbowl-copy">
-        <h2 class="bbowl-title">B Bowl oriental</h2>
+        <h2 class="bbowl-title">B Bowl <span class="bbowl-title-accent">oriental</span></h2>
         <p class="bbowl-desc">Une base fondante de pommes de terre, nappée de sauce fromagère, garnie de merguez, poivrons grillés et mozzarella fondante.</p>
       </div>
 
